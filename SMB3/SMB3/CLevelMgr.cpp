@@ -66,6 +66,20 @@ void CLevelMgr::render(HDC _dc)
 	POINT ptResolution = CEngine::GetInst()->GetResolution();
 	Rectangle(_dc, -1, -1, ptResolution.x + 1, ptResolution.y + 1);
 
+	// editor level일 경우 64 * 64 격자 생성
+	if (dynamic_cast<CEditorLevel*>(m_pCurLevel)) {
+		for (int i = 0; i < ptResolution.x / 64; ++i) {
+			for (int j = 0; j < ptResolution.y / 64; ++j) {
+				MoveToEx(_dc, i*64, j*64, nullptr);
+				LineTo(_dc, i*64 + 64, j*64);
+				MoveToEx(_dc, i * 64, j * 64, nullptr);
+				LineTo(_dc, i * 64, j * 64+64);
+			}
+		}
+		
+	}
+	
+
 	// 레벨 render
 	m_pCurLevel->render(_dc);
 
