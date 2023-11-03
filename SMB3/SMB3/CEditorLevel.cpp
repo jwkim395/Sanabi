@@ -47,21 +47,20 @@ void CEditorLevel::enter()
 	vLookAt /= 2.f;
 	CCamera::GetInst()->SetLookAt(vLookAt);
 
-	// 타일 생성
-
 	// UI 생성
 	CPanelUI* pPanelUI = new CPanelUI;
 	pPanelUI->SetScale(Vec2(350.f, 500.f));
 	pPanelUI->SetPos(Vec2(1200.f, 10.f));
 
+	// 불러오기 버튼
 	CBtnUI* pBtnUI = new CBtnUI;
 	pBtnUI->SetScale(Vec2(80.f, 40.f));
 	pBtnUI->SetPos(Vec2(10.f, 10.f));
 	//pBtnUI->SetCallBack(TestFunc);
 	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::LoadTile);
-
 	pPanelUI->AddChildUI(pBtnUI);
 
+	// 저장 버튼
 	pBtnUI = new CBtnUI;
 	pBtnUI->SetScale(Vec2(80.f, 40.f));
 	pBtnUI->SetPos(Vec2(110.f, 10.f));
@@ -69,6 +68,7 @@ void CEditorLevel::enter()
 	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::SaveTile);
 	pPanelUI->AddChildUI(pBtnUI);
 
+	// 초기화 버튼
 	pBtnUI = new CBtnUI;
 	pBtnUI->SetScale(Vec2(80.f, 40.f));
 	pBtnUI->SetPos(Vec2(220.f, 10.f));
@@ -76,13 +76,49 @@ void CEditorLevel::enter()
 	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::initSelected);
 	pPanelUI->AddChildUI(pBtnUI);
 
-	for (int i = 0; i < 25; ++i) {
+	
+	// atlus 카테고리화를 위해
+	// 여러개의 판넬을 같은위치에 위치시킨 후
+	// 버튼을 누르면 해당 UI가 제일 위로 올라오도록
+	// 카테고리
+	// 1. 몬스터
+	// 2. 맵 타일
+	// 3. 플레이어
+	// 
+	// 순서
+	// 1. 판넬, atlus imageUI화 진행
+	// 2. 버튼 UI 생성
+	// 3. 해당 버튼 누르면 변경하는 함수 넣기
+
+	// 이에 따른 수정해야 할 것
+	// save / load 시 카테고리 분류가 필요
+	// 몬스터의 경우 16*16이 아닌 16*32짜리도 좀 있는데 어칼까?
+	
+
+	// ex) 몬스터
+	CPanelUI* mPanelUI = new CPanelUI;
+	mPanelUI->SetScale(Vec2(321.f, 440.f));
+	mPanelUI->SetPos(Vec2(0.f, 60.f));
+
+	for (int i = 0; i < 25; ++i) {// 갯수 수정 필요
 		CImageUI* imageUI = new CImageUI;
 		imageUI->SetScale(Vec2(64.f, 64.f));
-		imageUI->SetPos(Vec2(10.f + 64 * (i % 5), 100.f + 64 * (i / 5)));
+		imageUI->SetPos(Vec2(0.f + 64 * (i % 5), 0.f + 64 * (i / 5)));
 		imageUI->GetTile()->SetImgIdx(i);
-		pPanelUI->AddChildUI(imageUI);
+		mPanelUI->AddChildUI(imageUI);
 	}
+	pPanelUI->AddChildUI(mPanelUI);
+
+	// 오른쪽에 카테고리 버튼
+	pBtnUI = new CBtnUI;
+	pBtnUI->SetScale(Vec2(28.f, 30.f));
+	pBtnUI->SetPos(Vec2(322.f, 60.f));
+	//pBtnUI->SetCallBack(TestFunc);
+	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::SaveTile);
+	pPanelUI->AddChildUI(pBtnUI);
+
+
+
 	AddObject(LAYER::UI, pPanelUI);
 
 	

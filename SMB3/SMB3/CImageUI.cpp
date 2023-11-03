@@ -45,6 +45,16 @@ CImageUI::CImageUI()
 	m_Tile = new CTile;
 }
 
+CImageUI::CImageUI(CTexture* t)
+	: m_NormalImg(nullptr)
+	, m_PressedImg(nullptr)
+	, m_CurImg(nullptr)
+	, m_Tile(nullptr)
+{
+	m_Tile = new CTile;
+	m_Tile->SetAtlas(t);
+}
+
 CImageUI::~CImageUI()
 {
 	delete m_Tile;

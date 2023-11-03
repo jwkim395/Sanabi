@@ -32,6 +32,7 @@ public:
 public:
     CLONE(CImageUI);
     CImageUI();
+    CImageUI(CTexture*);
     ~CImageUI();
 };
 
