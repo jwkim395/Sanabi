@@ -17,6 +17,7 @@ public:
     void LoadTile();
     void SaveTile();
     void setSelected(CImageUI* _ui) { selected = _ui; }
+    void initSelected();
 
 public:
     CEditorLevel();

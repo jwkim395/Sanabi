@@ -24,6 +24,7 @@ public:
     }
 
 public:
+    bool getMouseOn() { return m_bMouseOn; }
     virtual void tick(float _DT) override;
     virtual void render(HDC _dc) override;
 

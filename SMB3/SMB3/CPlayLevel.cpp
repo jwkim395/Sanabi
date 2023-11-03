@@ -18,11 +18,11 @@
 void CPlayLevel::init()
 {
 	// 플레이어 생성
-	CPlayer* pPlayer = new CPlayer;
+	//CPlayer* pPlayer = new CPlayer;
 
-	pPlayer->SetPos(Vec2(500.f, 200.f));
-	pPlayer->SetScale(Vec2(50.f, 50.f));
-	AddObject(PLAYER, pPlayer);
+	//pPlayer->SetPos(Vec2(500.f, 200.f));
+	//pPlayer->SetScale(Vec2(50.f, 50.f));
+	//AddObject(PLAYER, pPlayer);
 
 	// 몬스터 생성
 	//CMonster* pMonster = nullptr;

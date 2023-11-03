@@ -55,7 +55,7 @@ void CEditorLevel::enter()
 	pPanelUI->SetPos(Vec2(1200.f, 10.f));
 
 	CBtnUI* pBtnUI = new CBtnUI;
-	pBtnUI->SetScale(Vec2(100.f, 80.f));
+	pBtnUI->SetScale(Vec2(80.f, 40.f));
 	pBtnUI->SetPos(Vec2(10.f, 10.f));
 	//pBtnUI->SetCallBack(TestFunc);
 	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::LoadTile);
@@ -63,10 +63,17 @@ void CEditorLevel::enter()
 	pPanelUI->AddChildUI(pBtnUI);
 
 	pBtnUI = new CBtnUI;
-	pBtnUI->SetScale(Vec2(100.f, 80.f));
-	pBtnUI->SetPos(Vec2(200.f, 10.f));
+	pBtnUI->SetScale(Vec2(80.f, 40.f));
+	pBtnUI->SetPos(Vec2(110.f, 10.f));
 	//pBtnUI->SetCallBack(TestFunc);
 	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::SaveTile);
+	pPanelUI->AddChildUI(pBtnUI);
+
+	pBtnUI = new CBtnUI;
+	pBtnUI->SetScale(Vec2(80.f, 40.f));
+	pBtnUI->SetPos(Vec2(220.f, 10.f));
+	//pBtnUI->SetCallBack(TestFunc);
+	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::initSelected);
 	pPanelUI->AddChildUI(pBtnUI);
 
 	for (int i = 0; i < 25; ++i) {
@@ -120,8 +127,18 @@ void CEditorLevel::tick()
 		vMousePos = CCamera::GetInst()->GetRealPos(vMousePos);
 		vMousePos = { (int)vMousePos.x / 64, (int)vMousePos.y / 64 };
 		vMousePos *= 64;
-
-		if (selected != nullptr) {
+		bool uiMouseOn = false;
+		const vector<CObj*>& vecUi = GetObjects(LAYER::UI);
+		for (int i = 0; i < vecUi.size(); ++i) {
+			CUI* uiNow = dynamic_cast<CUI*>(vecUi[i]);
+			if (nullptr == uiNow)
+				continue;
+			if (uiNow->getMouseOn()) {
+				uiMouseOn = true;
+				break;
+			}
+		}
+		if (!uiMouseOn && selected != nullptr) {
 			CTile* pTile = selected->GetTile()->Clone();
 			pTile->SetPos(vMousePos);
 			AddObject(LAYER::TILE, pTile);
@@ -197,6 +214,11 @@ void CEditorLevel::SaveTile()
 	}
 
 	fclose(pFile);
+}
+
+void CEditorLevel::initSelected()
+{
+	CLevelMgr::GetInst()->SetTile(nullptr);
 }
 
 
