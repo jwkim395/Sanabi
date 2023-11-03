@@ -4,6 +4,8 @@
 #include "CEngine.h"
 #include "CKeyMgr.h"
 #include "CTimeMgr.h"
+#include "CLevelMgr.h"
+#include "CEditorLevel.h"
 
 #include "CAssetMgr.h"
 #include "CTexture.h"
@@ -23,6 +25,7 @@ CCamera::~CCamera()
 void CCamera::tick()
 {
 	// 방향키로 카메라가 바라보고 있는 위치를 변경
+	/*
 	if (KEY_PRESSED(KEY::LEFT))
 	{
 		m_vLookAt.x -= 200.f * DT;
@@ -41,6 +44,28 @@ void CCamera::tick()
 	if (KEY_PRESSED(KEY::DOWN))
 	{
 		m_vLookAt.y += 200.f * DT;
+	}
+	*/
+	if (dynamic_cast<CEditorLevel*>(CLevelMgr::GetInst()->GetCurLevel())) {
+		if (KEY_TAP(KEY::LEFT))
+		{
+			m_vLookAt.x -= 64.f;
+		}
+
+		if (KEY_TAP(KEY::RIGHT))
+		{
+			m_vLookAt.x += 64.f;
+		}
+
+		if (KEY_TAP(KEY::UP))
+		{
+			m_vLookAt.y -= 64.f;
+		}
+
+		if (KEY_TAP(KEY::DOWN))
+		{
+			m_vLookAt.y += 64.f;
+		}
 	}
 
 	// 화면 해상도의 중심위치를 알아낸다.

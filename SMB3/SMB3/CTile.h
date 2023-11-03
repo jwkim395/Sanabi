@@ -21,6 +21,7 @@ public:
 public:
     virtual void tick(float _DT) override;
     virtual void render(HDC _dc) override;
+    void renderInUI(HDC _dc);
 
 public:
     CLONE(CTile);

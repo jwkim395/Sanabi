@@ -22,7 +22,7 @@ void CImageUI::render(HDC _dc)
 	{
 		m_Tile->SetPos(vPos);
 		m_Tile->SetScale(vScale);
-		m_Tile->render(_dc);
+		m_Tile->renderInUI(_dc);
 	}
 	Super::render(_dc);
 }
