@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "CObj.h"
-
+#include "CUI.h"
 #include "CComponent.h"
 #include "CTaskMgr.h"
 
@@ -58,6 +58,8 @@ void CObj::render(HDC _dc)
 	}
 
 	if (!DEBUG_RENDER)
+		return;
+	if (dynamic_cast<CUI*>(this))
 		return;
 
 	SELECT_PEN(_dc, RED_PEN);
