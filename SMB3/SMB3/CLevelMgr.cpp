@@ -48,6 +48,7 @@ void CLevelMgr::init()
 	// Level
 	::ChangeLevel(LEVEL_TYPE::EDITOR_LEVEL);
 	selectedTile = nullptr;
+	curMap = nullptr;
 }
 
 void CLevelMgr::tick()

@@ -49,46 +49,50 @@ void CEditorLevel::enter()
 
 	// UI 생성
 	CPanelUI* pPanelUI = new CPanelUI;
-	pPanelUI->SetScale(Vec2(350.f, 500.f));
+	pPanelUI->SetScale(Vec2(350.f, 550.f));
 	pPanelUI->SetPos(Vec2(1200.f, 10.f));
 
 	// 불러오기 버튼
 	CBtnUI* pBtnUI = new CBtnUI;
-	pBtnUI->SetScale(Vec2(80.f, 30.f));
-	pBtnUI->SetPos(Vec2(10.f, 10.f));
-	//pBtnUI->SetCallBack(TestFunc);
+	pBtnUI->SetScale(Vec2(64.f, 64.f));
+	pBtnUI->SetPos(Vec2(39.5f, 10.f));
+	CTexture* pTexture = CAssetMgr::GetInst()->LoadTexture(L"load", L"texture\\load.png");
+	pBtnUI->SetNormalImg(pTexture);
 	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::LoadTile);
 	pPanelUI->AddChildUI(pBtnUI);
 
 	// 저장 버튼
 	pBtnUI = new CBtnUI;
-	pBtnUI->SetScale(Vec2(80.f, 30.f));
-	pBtnUI->SetPos(Vec2(110.f, 10.f));
-	//pBtnUI->SetCallBack(TestFunc);
+	pBtnUI->SetScale(Vec2(64.f, 64.f));
+	pBtnUI->SetPos(Vec2(143.f, 10.f));
+	pTexture = CAssetMgr::GetInst()->LoadTexture(L"save", L"texture\\save.png");
+	pBtnUI->SetNormalImg(pTexture);
 	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::SaveTile);
 	pPanelUI->AddChildUI(pBtnUI);
 
 	// 초기화 버튼
 	pBtnUI = new CBtnUI;
-	pBtnUI->SetScale(Vec2(80.f, 30.f));
-	pBtnUI->SetPos(Vec2(220.f, 10.f));
-	//pBtnUI->SetCallBack(TestFunc);
+	pBtnUI->SetScale(Vec2(64.f, 64.f));
+	pBtnUI->SetPos(Vec2(246.5f, 10.f));
+	pTexture = CAssetMgr::GetInst()->LoadTexture(L"reset", L"texture\\reset.png");
+	pBtnUI->SetNormalImg(pTexture);
 	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::initSelected);
 	pPanelUI->AddChildUI(pBtnUI);
 
 
 	// 게임 시작 버튼
 	pBtnUI = new CBtnUI;
-	pBtnUI->SetScale(Vec2(200.f, 30.f));
-	pBtnUI->SetPos(Vec2(10.f, 60.f));
-	//pBtnUI->SetCallBack(TestFunc);
-	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::initSelected);
+	pBtnUI->SetScale(Vec2(150.f, 50.f));
+	pBtnUI->SetPos(Vec2(100.f, 84.f));
+	pTexture = CAssetMgr::GetInst()->LoadTexture(L"start", L"texture\\start.png");
+	pBtnUI->SetNormalImg(pTexture);
+	//pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::initSelected);
 	pPanelUI->AddChildUI(pBtnUI);
 	
 
 	CPanelUI* mPanelUI = new CPanelUI;
 	mPanelUI->SetScale(Vec2(321.f, 380.f));
-	mPanelUI->SetPos(Vec2(10.f, 100.f));
+	mPanelUI->SetPos(Vec2(10.f, 144.f));
 
 	for (int i = 0; i < 30; ++i) {
 		CImageUI* imageUI = new CImageUI;
@@ -109,21 +113,9 @@ void CEditorLevel::enter()
 
 void CEditorLevel::exit()
 {
+	const vector<CObj*>& vecTile = GetObjects(LAYER::TILE);
+	CLevelMgr::GetInst()->SetMapData(vecTile, mLeft, mRightBottom);
 	DeleteAllObjects();
-
-	// 메뉴바 제거
-	// 현재 윈도우에 붙어있는 메뉴의 핸들(아이디) 를 알아낸다.
-	HMENU hMenu = GetMenu(CEngine::GetInst()->GetMainWind());
-
-	// 메인 윈도우에 부착되어있는 메뉴를 떼어낸다.
-	SetMenu(CEngine::GetInst()->GetMainWind(), nullptr);
-
-	// 메뉴를 메모리 해제시킨다.
-	DestroyMenu(hMenu);
-
-	// 메뉴가 윈도우에서 떨어졌으니, 윈도우 크기를 다시 설정해준다.
-	POINT ptResSol = CEngine::GetInst()->GetResolution();
-	CEngine::GetInst()->ChangeWindowSize(ptResSol, false);
 }
 
 void CEditorLevel::tick()
@@ -256,15 +248,17 @@ void CEditorLevel::SaveTile()
 
 void CEditorLevel::initSelected()
 {
-	CLevelMgr::GetInst()->GetTile()->SetSelected();
-	CLevelMgr::GetInst()->SetTile(nullptr);
+	if (nullptr != CLevelMgr::GetInst()->GetTile()) {
+		CLevelMgr::GetInst()->GetTile()->SetSelected();
+		CLevelMgr::GetInst()->SetTile(nullptr);
+	}
 }
 
 void CEditorLevel::LoadGame()
 {
 	// endtile, mario가 설정되어 있으면 changeLevel 가능
-	//if (isMarioSetted && isEndSetted)
-	//	ChangeLevel;
+	if (isMarioSetted && isEndSetted)
+		ChangeLevel(LEVEL_TYPE::PLAY_LEVEL);
 }
 
 

@@ -10,5 +10,7 @@ public:
 
     virtual void tick() override;
 
+    void loadMap();
+
 };
 

@@ -3,6 +3,7 @@
 
 #include "CEngine.h"
 #include "resource.h"
+#include "CTexture.h"
 
 #include "CKeyMgr.h"
 
@@ -23,8 +24,6 @@ CBtnUI::~CBtnUI()
 
 void CBtnUI::tick(float _DT)
 {
-	
-
 	Super::tick(_DT);
 }
 
@@ -35,10 +34,26 @@ void CBtnUI::render(HDC _dc)
 
 	if (nullptr != m_CurImg)
 	{
-
 	}
 	else
 	{
+		/*
+		BLENDFUNCTION blend = {};
+		blend.BlendOp = AC_SRC_OVER;
+		blend.BlendFlags = 0;
+
+		blend.SourceConstantAlpha = 255; // 0 ~ 255
+		blend.AlphaFormat = AC_SRC_ALPHA; // 0
+
+		AlphaBlend(_dc
+			, int(vPos.x)
+			, int(vPos.y)
+			, m_CurImg->GetWidth(), m_CurImg->GetHeight()
+			, m_CurImg->GetDC()
+			, (int)(vPos.x + vScale.x)
+			, (int)(vPos.y + vScale.y)
+			, m_CurImg->GetWidth(), m_CurImg->GetHeight()
+			, blend);*/
 		Rectangle(_dc
 			, (int)(vPos.x)
 			, (int)(vPos.y)
@@ -52,30 +67,23 @@ void CBtnUI::render(HDC _dc)
 
 void CBtnUI::OnHovered(Vec2 _vMousePos)
 {
-	m_CurImg = m_HoverImg;
 }
 
 void CBtnUI::MouseOn(Vec2 _vMousePos)
 {
-
 }
 
 void CBtnUI::OnUnHovered(Vec2 _vMousePos)
 {
-	m_CurImg = m_NormalImg;
 }
 
 
 void CBtnUI::LBtnDown(Vec2 _vMousePos)
 {
-	m_CurImg = m_PressedImg;
-
-	
 }
 
 void CBtnUI::LBtnUp(Vec2 _vMousePos)
 {
-	m_CurImg = m_NormalImg;
 }
 
 INT_PTR CALLBACK CreateTileProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
