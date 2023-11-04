@@ -236,6 +236,10 @@ void CEditorLevel::SaveTile()
 	// mRightBottom
 	// mariosetted
 	// endsetted
+	fwrite(&mLeft, sizeof(Vec2), 1, pFile); 
+	fwrite(&mRightBottom, sizeof(Vec2), 1, pFile);
+	fwrite(&isMarioSetted, sizeof(bool), 1, pFile);
+	fwrite(&isEndSetted, sizeof(bool), 1, pFile);
 	
 	const vector<CObj*>& vecTile = GetObjects(LAYER::TILE);
 	UINT iTileCount = vecTile.size();
@@ -310,6 +314,10 @@ void CEditorLevel::LoadTile()
 	// mRightBottom
 	// mariosetted
 	// endsetted
+	fread(&mLeft, sizeof(Vec2), 1, pFile);
+	fread(&mRightBottom, sizeof(Vec2), 1, pFile);
+	fread(&isMarioSetted, sizeof(bool), 1, pFile);
+	fread(&isEndSetted, sizeof(bool), 1, pFile);
 
 	UINT iTileCount = 0;
 
