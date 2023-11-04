@@ -254,6 +254,7 @@ void CEditorLevel::SaveTile()
 
 void CEditorLevel::initSelected()
 {
+	CLevelMgr::GetInst()->GetTile()->SetSelected();
 	CLevelMgr::GetInst()->SetTile(nullptr);
 }
 

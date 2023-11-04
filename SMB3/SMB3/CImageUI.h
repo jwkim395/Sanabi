@@ -13,12 +13,14 @@ private:
     CTexture* m_PressedImg;
     CTexture* m_CurImg;
     CTile* m_Tile;
+    bool selected;
 
 public:
     void SetNormalImg(CTexture* _NormalImg) { m_NormalImg = _NormalImg; }
     void SetPressedImg(CTexture* _PressedImg) { m_PressedImg = _PressedImg; }
     void SetTile(CTile* t) { m_Tile = t; }
     CTile* GetTile() { return m_Tile; }
+    void SetSelected() { selected = !selected; }
 
 public:
     virtual void tick(float _DT) override;

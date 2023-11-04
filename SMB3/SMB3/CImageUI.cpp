@@ -22,7 +22,10 @@ void CImageUI::render(HDC _dc)
 	{
 		m_Tile->SetPos(vPos);
 		m_Tile->SetScale(vScale);
-		m_Tile->renderInUI(_dc);
+		if(selected)
+			m_Tile->renderInUI(_dc, 120);
+		else
+			m_Tile->renderInUI(_dc, 255);
 	}
 	Super::render(_dc);
 }
@@ -30,9 +33,12 @@ void CImageUI::render(HDC _dc)
 void CImageUI::LBtnClicked(Vec2 _vMousePos)
 {
 	CImageUI* curSel = CLevelMgr::GetInst()->GetTile();
-	if (nullptr != curSel)
+	if (nullptr != curSel) {
 		curSel->setCurImgToNormal();
+		CLevelMgr::GetInst()->GetTile()->selected = false;
+	}
 	m_CurImg = m_PressedImg;
+	selected = true;
 	CLevelMgr::GetInst()->SetTile(this);
 }
 

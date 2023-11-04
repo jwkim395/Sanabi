@@ -142,7 +142,7 @@ void CTile::render(HDC _dc)
 	}	
 }
 
-void CTile::renderInUI(HDC _dc)
+void CTile::renderInUI(HDC _dc, int alpha)
 {
 	Vec2 vRenderPos = GetPos();
 
@@ -185,7 +185,7 @@ void CTile::renderInUI(HDC _dc)
 		blend.BlendOp = AC_SRC_OVER;
 		blend.BlendFlags = 0;
 
-		blend.SourceConstantAlpha = 255; // 0 ~ 255
+		blend.SourceConstantAlpha = alpha; // 0 ~ 255
 		blend.AlphaFormat = AC_SRC_ALPHA; // 0
 
 		AlphaBlend(_dc
