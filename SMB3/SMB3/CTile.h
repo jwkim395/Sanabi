@@ -14,6 +14,7 @@ private:
 public:
     void SetAtlas(class CTexture* _Atlas) { m_Atlas = _Atlas; }
     void SetImgIdx(int _ImgIdx){ m_Idx = _ImgIdx; }
+    int GetImgIdx() { return m_Idx; }
     void AddImgIdx();
     void Save(FILE* _pFile);
     void Load(FILE* _pFile);

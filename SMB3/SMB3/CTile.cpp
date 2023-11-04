@@ -9,7 +9,7 @@ CTile::CTile()
 	: m_Atlas(nullptr)
 	, m_Idx(40)
 {
-	m_Atlas = CAssetMgr::GetInst()->LoadTexture(L"TileAltas", L"texture\\tile.png");
+	m_Atlas = CAssetMgr::GetInst()->LoadTexture(L"TileAltas", L"texture\\tile1.png");
 }
 
 
@@ -93,8 +93,8 @@ void CTile::render(HDC _dc)
 		Rectangle(_dc
 			, (int)(vRenderPos.x)
 			, (int)(vRenderPos.y)
-			, (int)(vRenderPos.x + TILE_SIZE)
-			, (int)(vRenderPos.y + TILE_SIZE));
+			, (int)(vRenderPos.x + 64)
+			, (int)(vRenderPos.y + 64));
 	}
 	else
 	{
@@ -114,7 +114,7 @@ void CTile::render(HDC _dc)
 		UINT iRow = m_Idx / maxCol;
 		UINT iCol = m_Idx % maxCol;
 
-		Vec2 vLeftTop = Vec2(TILE_SIZE * iCol, TILE_SIZE * iRow);
+		Vec2 vLeftTop = Vec2(TILE_SIZE * iCol + 4, TILE_SIZE * iRow + 4);
 
 		//BitBlt(_dc
 		//	, (int)vRenderPos.x
@@ -133,11 +133,11 @@ void CTile::render(HDC _dc)
 		AlphaBlend(_dc
 			, int(vRenderPos.x)
 			, int(vRenderPos.y)
-			, TILE_SIZE, TILE_SIZE
+			, TILE_SIZE - 8,TILE_SIZE - 8
 			, m_Atlas->GetDC()
 			, (int)vLeftTop.x
 			, (int)vLeftTop.y
-			, TILE_SIZE, TILE_SIZE
+			, TILE_SIZE - 8, TILE_SIZE - 8
 			, blend);
 	}	
 }

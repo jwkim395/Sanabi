@@ -34,7 +34,7 @@
 #define SELECT_PEN(DC, TYPE) FSelectPen tempPenSelect(DC, TYPE)
 #define SELECT_BRUSH(DC, hBrush) FSelectBrush tempBrushSelect(DC, hBrush)
 
-#define TILE_SIZE 64
+#define TILE_SIZE 72
 
 #define CLONE(type) virtual type* Clone() {return new type(*this);}
 #define CLONE_DISABLE(type) virtual type* Clone() {return nullptr;}
@@ -199,30 +199,35 @@ enum class ENORMAL_MON_STATE
 // Tile Type
 enum Tile_Type
 {
-	BONUS_BOX,
-	COIN,
 	MARIO,
+	BONUS_BOX,
+	EVOLVE_BOX,
+	COIN,
 	UNBREAK_BLOCK,
 	BLOCK,
-	WALL1,
-	CLOUD,
-	WALL2,
-	PIPE_LEFT,
 	GROUND_L,
-	PIPE_RIGHT,
-	PLAT_0,
-	PLAT_4,
-	PLAT_1,
-	PLAT_5,
 	GROUND_M,
-	PIPE_B_L,
 	GROUND_R,
-	PIPE_B_R,
+	WALL_L,
+	WALL_M,
+	WALL_R,
+	PIPE_UP_L,
+	PIPE_UP_R,
+	PIPE_DOWN_L,
+	PIPE_DOWN_R,
+	PLAT_0,
+	PLAT_1,
 	PLAT_2,
-	PLAT_6,
 	PLAT_3,
+	PLAT_4,
+	PLAT_5,
+	PLAT_6,
 	PLAT_7,
 	PLAT_8,
-	PLAT2_1,
+	GAME_END,
+	GOOMBA,
+	TURTLE,
+	PLANT,
+	RED_PLANT,
 	END_TYPE,
 };
