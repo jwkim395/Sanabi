@@ -181,6 +181,11 @@ void CEditorLevel::tick()
 		for (int i = 0; i < vecTile.size(); ++i) {
 			if (vecTile[i]->GetRenderPos().x <= vMousePos.x && vecTile[i]->GetRenderPos().x + vecTile[i]->GetScale().x >= vMousePos.x
 				&& vecTile[i]->GetRenderPos().y <= vMousePos.y && vecTile[i]->GetRenderPos().y + vecTile[i]->GetScale().y >= vMousePos.y) {
+				CTile* curTile = dynamic_cast<CTile*>(vecTile[i]);
+				if (curTile->GetImgIdx() == Tile_Type::MARIO)
+					isMarioSetted = false;
+				else if (curTile->GetImgIdx() == Tile_Type::GAME_END)
+					isEndSetted = false;
 				vecTile[i]->Destroy();
 				break;
 			}

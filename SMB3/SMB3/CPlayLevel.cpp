@@ -35,6 +35,8 @@ void CPlayLevel::enter()
 		}
 	}
 	// map > obj 화 필요
+
+
 	CCamera::GetInst()->FadeIn(0.3f);
 
 	
@@ -79,10 +81,10 @@ void CPlayLevel::loadMap()
 	// mRightBottom
 	// mariosetted
 	// endsetted
-	fread(&mLeft, sizeof(Vec2), 1, pFile);
-	fread(&mRightBottom, sizeof(Vec2), 1, pFile);
-	fread(&isMarioSetted, sizeof(bool), 1, pFile);
-	fread(&isEndSetted, sizeof(bool), 1, pFile);
+	//fread(&mLeft, sizeof(Vec2), 1, pFile);
+	//fread(&mRightBottom, sizeof(Vec2), 1, pFile);
+	//fread(&isMarioSetted, sizeof(bool), 1, pFile);
+	//fread(&isEndSetted, sizeof(bool), 1, pFile);
 
 	UINT iTileCount = 0;
 

@@ -1,5 +1,7 @@
 #pragma once
 
+class CObj;
+
 struct mapData {
 	vector<CObj*> tileData;
 	Vec2 vLeft;

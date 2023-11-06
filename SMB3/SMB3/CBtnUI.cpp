@@ -32,12 +32,8 @@ void CBtnUI::render(HDC _dc)
 	Vec2 vPos = GetFinalPos();
 	Vec2 vScale = GetScale();
 
-	if (nullptr != m_CurImg)
+	if (nullptr != m_NormalImg)
 	{
-	}
-	else
-	{
-		/*
 		BLENDFUNCTION blend = {};
 		blend.BlendOp = AC_SRC_OVER;
 		blend.BlendFlags = 0;
@@ -48,17 +44,20 @@ void CBtnUI::render(HDC _dc)
 		AlphaBlend(_dc
 			, int(vPos.x)
 			, int(vPos.y)
-			, m_CurImg->GetWidth(), m_CurImg->GetHeight()
-			, m_CurImg->GetDC()
-			, (int)(vPos.x + vScale.x)
-			, (int)(vPos.y + vScale.y)
-			, m_CurImg->GetWidth(), m_CurImg->GetHeight()
-			, blend);*/
-		Rectangle(_dc
+			, m_NormalImg->GetWidth(), m_NormalImg->GetHeight()
+			, m_NormalImg->GetDC()
+			, 0
+			, 0
+			, m_NormalImg->GetWidth(), m_NormalImg->GetHeight()
+			, blend);
+	}
+	else
+	{
+		/*Rectangle(_dc
 			, (int)(vPos.x)
 			, (int)(vPos.y)
 			, (int)(vPos.x + vScale.x)
-			, (int)(vPos.y + vScale.y));
+			, (int)(vPos.y + vScale.y));*/
 	}	
 
 	// 부모클래스(CUI) 렌더함수 호출(자식 UI 들한테 render 를 호출한다)
