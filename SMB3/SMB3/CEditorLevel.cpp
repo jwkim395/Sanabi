@@ -86,7 +86,7 @@ void CEditorLevel::enter()
 	pBtnUI->SetPos(Vec2(100.f, 84.f));
 	pTexture = CAssetMgr::GetInst()->LoadTexture(L"start", L"texture\\start.png");
 	pBtnUI->SetNormalImg(pTexture);
-	//pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::initSelected);
+	pBtnUI->SetDeletage(this, (DelegateFunc)&CEditorLevel::LoadGame);
 	pPanelUI->AddChildUI(pBtnUI);
 	
 
