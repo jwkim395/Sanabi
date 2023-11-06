@@ -50,6 +50,7 @@ public:
 	UINT GetTileRow() { return m_TileRow; }
 
 	CObj* FindObjectByName(const wstring& _Name);
+	void ClearLayer(LAYER _LayerType) { m_Layer[_LayerType]->clearLayer(); }
 
 private:
 	void FindTileScreen();

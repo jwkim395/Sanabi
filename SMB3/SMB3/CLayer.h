@@ -28,6 +28,10 @@ public:
 
 	void DeleteAllObjects();
 
+	void clearLayer() {
+		m_vecObjects.clear();
+	}
+
 
 public:
 	CLONE_DISABLE(CLayer);
