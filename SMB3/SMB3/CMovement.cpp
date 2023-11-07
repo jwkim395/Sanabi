@@ -1,7 +1,7 @@
 
 #include "pch.h"
 #include "CMovement.h"
-
+#include "CLogMgr.h"
 #include "CObj.h"
 
 CMovement::CMovement(CObj* _Owner)
@@ -38,7 +38,7 @@ void CMovement::finaltick(float _DT)
 		{
 			Vec2 vAccelDir = m_Accel;
 			vAccelDir.Normalize();
-			m_Velocity = vAccelDir * m_InitSpeed;
+			m_Velocity = vAccelDir;
 		}
 	}
 	else
@@ -52,8 +52,8 @@ void CMovement::finaltick(float _DT)
 		m_Velocity.x = (m_Velocity.x / abs(m_Velocity.x)) * m_MaxSpeed;
 	}
 
-	// 물체에 적용되고있는 힘이 없으면 마찰력을 적용시킨다.
-	if (m_Force.IsZero() && m_Velocity.x != 0.f && m_Ground)
+	// 물체에 적용되고있는 힘이 없거나 반대면 마찰력을 적용시킨다.
+	if (m_Ground && m_Velocity.x != 0.f)
 	{
 		float fFriction = -m_Velocity.x;
 		fFriction /= abs(fFriction);
@@ -74,6 +74,11 @@ void CMovement::finaltick(float _DT)
 	Vec2 vObjPos = GetOwner()->GetPos();
 	vObjPos += m_Velocity * _DT;	
 	GetOwner()->SetPos(vObjPos);
+	if (!IsGround() && abs(m_Velocity.y) < 1.f) {
+		wstring buffer = L"";
+		buffer += L"vPos y : " + std::to_wstring(vObjPos.y);
+		CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });
+	}
 
 	// 힘 리셋
 	m_Force = Vec2(0.f, 0.f);

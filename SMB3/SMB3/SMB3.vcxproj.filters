@@ -183,7 +183,7 @@
     <ClInclude Include="CPlatform.h">
       <Filter>Game\05. Object\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="CPlayer.h">
+    <ClInclude Include="CMario.h">
       <Filter>Game\05. Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="CTile.h">
@@ -231,11 +231,11 @@
     <ClInclude Include="CImageUI.h">
       <Filter>Game\05. Object\UI</Filter>
     </ClInclude>
-    <ClInclude Include="SMB3.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="CPlayLevel.h">
       <Filter>Game\04. Level\TutorialLevel</Filter>
+    </ClInclude>
+    <ClInclude Include="SMB3.h">
+      <Filter>Default</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -311,7 +311,7 @@
     <ClCompile Include="CPlatform.cpp">
       <Filter>Game\05. Object\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="CPlayer.cpp">
+    <ClCompile Include="CMario.cpp">
       <Filter>Game\05. Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="CTile.cpp">

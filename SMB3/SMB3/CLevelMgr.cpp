@@ -12,7 +12,7 @@
 #include "CEditorLevel.h"
 
 
-#include "CPlayer.h"
+#include "CMario.h"
 #include "CMonster.h"
 #include "CPlatform.h"
 
@@ -46,7 +46,7 @@ void CLevelMgr::init()
 	}
 
 	// Level
-	::ChangeLevel(LEVEL_TYPE::EDITOR_LEVEL);
+	::ChangeLevel(LEVEL_TYPE::PLAY_LEVEL);
 	selectedTile = nullptr;
 	curMap = nullptr;
 }

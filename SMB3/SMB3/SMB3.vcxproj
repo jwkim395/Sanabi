@@ -166,7 +166,7 @@
     <ClInclude Include="CPanelUI.h" />
     <ClInclude Include="CPathMgr.h" />
     <ClInclude Include="CPlatform.h" />
-    <ClInclude Include="CPlayer.h" />
+    <ClInclude Include="CMario.h" />
     <ClInclude Include="CPlayLevel.h" />
     <ClInclude Include="CSound.h" />
     <ClInclude Include="CSoundMgr.h" />
@@ -215,7 +215,7 @@
     <ClCompile Include="CPanelUI.cpp" />
     <ClCompile Include="CPathMgr.cpp" />
     <ClCompile Include="CPlatform.cpp" />
-    <ClCompile Include="CPlayer.cpp" />
+    <ClCompile Include="CMario.cpp" />
     <ClCompile Include="CPlayLevel.cpp" />
     <ClCompile Include="CSound.cpp" />
     <ClCompile Include="CSoundMgr.cpp" />

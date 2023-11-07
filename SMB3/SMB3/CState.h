@@ -9,7 +9,7 @@
 #include "CLevel.h"
 
 #include "CMonster.h"
-#include "CPlayer.h"
+#include "CMario.h"
 
 class CState :
     public CEntity

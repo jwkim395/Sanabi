@@ -33,6 +33,8 @@ private:
 
     // 땅위인지 아닌지
     bool    m_Ground;
+    
+    float jumpPressed;
 
 
 public:
@@ -144,5 +146,6 @@ public:
 
     CMovement(CObj* _Owner);
     ~CMovement();
+    friend class CMario;
 };
 

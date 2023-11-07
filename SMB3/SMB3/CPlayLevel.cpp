@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CPlayLevel.h"
 
-#include "CPlayer.h"
+#include "CMario.h"
 #include "CMonster.h"
 #include "CPlatform.h"
 
@@ -18,10 +18,15 @@
 
 void CPlayLevel::init()
 {
+	// 충돌 설정
+	CCollisionMgr::GetInst()->CheckCollision(MONSTER, PLAYER);
+	CCollisionMgr::GetInst()->CheckCollision(PLAYER_PJ, MONSTER);
+	CCollisionMgr::GetInst()->CheckCollision(PLAYER, PLATFORM);
 }
 
 void CPlayLevel::enter()
 {	
+	/*
 	CCamera::GetInst()->FadeOut(0.3f);
 	if (CLevelMgr::GetInst()->getMapData() == nullptr) {
 		// 미리 저장해놓은 맵 로딩
@@ -33,10 +38,31 @@ void CPlayLevel::enter()
 		for (int i = 0; i < curMapTiles.size(); ++i) {
 			AddObject(TILE, curMapTiles[i]);
 		}
+		curMapTiles.clear();
 	}
 	// map > obj 화 필요
 
+	*/
+	CMario* pPlayer = new CMario;
+	pPlayer->SetPos(Vec2(128.f, 700.f));
+	pPlayer->SetScale(Vec2(64.f, 64.f));
+	AddObject(PLAYER, pPlayer);
 
+	// 플랫폼 설치
+	CPlatform* pPlatform = new CPlatform;
+	pPlatform->SetPos(Vec2(10.f, 700.f));
+	pPlatform->SetScale(Vec2(1500.f, 64.f));
+	AddObject(PLATFORM, pPlatform);
+
+	pPlatform = new CPlatform;
+	pPlatform->SetPos(Vec2(500.f, 572.f));
+	pPlatform->SetScale(Vec2(64.f, 192.f));
+	AddObject(PLATFORM, pPlatform);
+
+	
+	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
+	vLookAt /= 2.f;
+	CCamera::GetInst()->SetLookAt(vLookAt);
 	CCamera::GetInst()->FadeIn(0.3f);
 
 	
@@ -52,18 +78,6 @@ void CPlayLevel::tick()
 	CLevel::tick();
 
 	// Enter 키가 눌리면 StartLevel 로 변환
-	if (KEY_TAP(KEY::ENTER))
-	{
-		ChangeLevel(LEVEL_TYPE::EDITOR_LEVEL);
-	}
-
-	if (KEY_TAP(KEY::M))
-	{
-		CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"BGM_02", L"sound\\BGM_Stage1.wav");
-		pSound->SetVolume(100);
-		pSound->SetPosition(45.f);
-		pSound->Play(true);
-	}	
 }
 
 void CPlayLevel::loadMap()

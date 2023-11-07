@@ -128,6 +128,7 @@ public:
 		return false;
 	}
 
+
 public:
 	Vec2()
 		: x(0.f)
