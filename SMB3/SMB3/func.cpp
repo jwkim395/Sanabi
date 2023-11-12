@@ -52,3 +52,27 @@ void LoadWString(wstring& _str, FILE* _File)
 
 	_str = szBuff;
 }
+
+HBITMAP FlipBitmapHorizontally(HBITMAP hbm) {
+	BITMAP bm;
+	GetObject(hbm, sizeof(BITMAP), &bm);
+	int wd = bm.bmWidth;
+	int hgt = bm.bmHeight;
+
+	HDC hdcScr = GetDC(NULL);
+	HDC hdcFlipped = CreateCompatibleDC(hdcScr);
+	HBITMAP hbmFlipped = CreateCompatibleBitmap(hdcScr, wd, hgt);
+	HGDIOBJ oldFlipped = SelectObject(hdcFlipped, hbmFlipped);
+	HDC hdcSrc = CreateCompatibleDC(hdcScr);
+	HGDIOBJ oldSrc = SelectObject(hdcSrc, hbm);
+
+	StretchBlt(hdcFlipped, wd, 0, -wd, hgt, hdcSrc, 0, 0, wd, hgt, SRCCOPY);
+
+	SelectObject(hdcSrc, oldSrc);
+	DeleteDC(hdcSrc);
+	SelectObject(hdcFlipped, oldFlipped);
+	DeleteDC(hdcFlipped);
+	ReleaseDC(NULL, hdcScr);
+
+	return hbmFlipped;
+}

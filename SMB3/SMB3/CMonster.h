@@ -9,13 +9,11 @@ class CMonster :
     public CObj
 {
     GENERATED_OBJECT(CObj);
-private:
+protected:
     FMonInfo        m_Info;
     CCollider*      m_Collider;
-    CStateMachine*  m_AI;
-
-
-    CTexture*   m_Texture;
+    class CAnimator* m_Animator;
+    class CMovement* m_Movement;
 
 public:
     void SetMonsterInfo(const FMonInfo& _Info) { m_Info = _Info; }
@@ -23,7 +21,6 @@ public:
 public:
     virtual void begin() override;
     virtual void tick(float _DT) override;
-    virtual void render(HDC _dc) override;
 
 
 public:

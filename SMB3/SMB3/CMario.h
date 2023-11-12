@@ -11,10 +11,16 @@ protected:
     class CMovement*  m_Movement;
     int status; // 0 > mini, 1 > super, 2 > fire, 3 > racoon
     float jumpedTime;
+    Vec2 firstPos;
+    bool watchDir; // true > ¿À¸¥ÂÊ º½, false > ¿ÞÂÊ º½
+    float powering;
 
 public:
     virtual void tick(float _DT) override;    
     virtual void BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
+    void powerUp();
+    void powerDown();
+    void dead();
     virtual void EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
 
 public:

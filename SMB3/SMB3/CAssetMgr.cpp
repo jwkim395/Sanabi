@@ -56,6 +56,33 @@ CTexture* CAssetMgr::LoadTexture(const wstring& _strKey, const wstring& _strRela
 	return pTexture;
 }
 
+CTexture* CAssetMgr::LoadTextureReverse(const wstring& _strKey, const wstring& _strRelativePath)
+{
+	CTexture* pTexture = FindTexture(_strKey);
+
+	if (nullptr != pTexture)
+	{
+		return pTexture;
+	}
+
+	wstring strContentPath = CPathMgr::GetContentPath();
+	strContentPath += _strRelativePath;
+
+	pTexture = new CTexture;
+	if (!pTexture->Load_r(strContentPath))
+	{
+		delete pTexture;
+		return nullptr;
+	}
+
+	pTexture->m_strKey = _strKey;
+	pTexture->m_strRelativePath = _strRelativePath;
+
+	m_mapTex.insert(make_pair(_strKey, pTexture));
+
+	return pTexture;
+}
+
 CTexture* CAssetMgr::CreateTexture(const wstring& _strKey, UINT _width, UINT _height)
 {
 	// 입력된 키에 해당하는 텍스쳐가 있는지 확인한다.

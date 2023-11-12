@@ -87,7 +87,7 @@ public:
 	virtual void Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) {}
 	virtual void EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) {}
 
-private:
+protected:
 	void SetDead();
 
 public:

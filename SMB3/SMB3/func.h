@@ -25,3 +25,5 @@ void ChangeLevel(LEVEL_TYPE _type);
 
 void SaveWString(const wstring& _str, FILE* _File);
 void LoadWString(wstring& _str, FILE* _File);
+
+HBITMAP FlipBitmapHorizontally(HBITMAP hbm);

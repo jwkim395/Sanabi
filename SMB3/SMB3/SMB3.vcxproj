@@ -153,6 +153,7 @@
     <ClInclude Include="CEngine.h" />
     <ClInclude Include="CEntity.h" />
     <ClInclude Include="CGCMgr.h" />
+    <ClInclude Include="CGoomba.h" />
     <ClInclude Include="CImageUI.h" />
     <ClInclude Include="CKeyMgr.h" />
     <ClInclude Include="CLayer.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="CEngine.cpp" />
     <ClCompile Include="CEntity.cpp" />
     <ClCompile Include="CGCMgr.cpp" />
+    <ClCompile Include="CGoomba.cpp" />
     <ClCompile Include="CImageUI.cpp" />
     <ClCompile Include="CKeyMgr.cpp" />
     <ClCompile Include="CLayer.cpp" />

@@ -53,8 +53,10 @@ void CLevelMgr::init()
 
 void CLevelMgr::tick()
 {
-	if(nullptr != m_pCurLevel)
+	if (nullptr != m_pCurLevel) {
 		m_pCurLevel->tick();
+	}
+		
 }
 
 void CLevelMgr::render(HDC _dc)

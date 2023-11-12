@@ -74,11 +74,6 @@ void CMovement::finaltick(float _DT)
 	Vec2 vObjPos = GetOwner()->GetPos();
 	vObjPos += m_Velocity * _DT;	
 	GetOwner()->SetPos(vObjPos);
-	if (!IsGround() && abs(m_Velocity.y) < 1.f) {
-		wstring buffer = L"";
-		buffer += L"vPos y : " + std::to_wstring(vObjPos.y);
-		CLogMgr::GetInst()->AddLog(FLog{ LOG_LEVEL::ERR, buffer });
-	}
 
 	// 힘 리셋
 	m_Force = Vec2(0.f, 0.f);

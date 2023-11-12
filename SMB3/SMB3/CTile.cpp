@@ -123,6 +123,16 @@ void CTile::render(HDC _dc)
 		//	, m_Atlas->GetDC()
 		//	, (int)vLeftTop.x
 		//	, (int)vLeftTop.y, SRCCOPY);
+
+		TransparentBlt(_dc
+			, (int)vRenderPos.x
+			, (int)vRenderPos.y
+			, TILE_SIZE, TILE_SIZE
+			, m_Atlas->GetDC()
+			, (int)vLeftTop.x, (int)vLeftTop.y
+			, TILE_SIZE, TILE_SIZE
+			, RGB(147, 187, 236));
+		/*
 		BLENDFUNCTION blend = {};
 		blend.BlendOp = AC_SRC_OVER;
 		blend.BlendFlags = 0;
@@ -138,7 +148,7 @@ void CTile::render(HDC _dc)
 			, (int)vLeftTop.x
 			, (int)vLeftTop.y
 			, TILE_SIZE - 8, TILE_SIZE - 8
-			, blend);
+			, blend);*/
 	}	
 }
 

@@ -53,14 +53,15 @@ void CAnim::render(HDC _dc)
 	CObj* pOwnerObject = m_pAnimator->GetOwner();
 	Vec2 vRenderPos = pOwnerObject->GetRenderPos();
 
-	/*TransparentBlt(_dc, int(vRenderPos.x - (frm.vCutSize.x / 2.f) + frm.vOffset.x)
-					  , int(vRenderPos.y - (frm.vCutSize.y / 2.f) + frm.vOffset.y)
-					  , int(frm.vCutSize.x), int(frm.vCutSize.y)
+	TransparentBlt(_dc, int(vRenderPos.x - (frm.vCutSize.x * 2.f) + frm.vOffset.x)
+					  , int(vRenderPos.y - (frm.vCutSize.y * 2.f) + frm.vOffset.y)
+					  , int(frm.vCutSize.x)*4, int(frm.vCutSize.y)*4
 					  , m_Atlas->GetDC()
 					  , int(frm.vLeftTop.x), int(frm.vLeftTop.y)
 					  , int(frm.vCutSize.x), int(frm.vCutSize.y)
-					  , RGB(255, 0, 255));*/
+					  , RGB(147, 187, 236));
 
+	/*
 	BLENDFUNCTION blend = {};
 	blend.BlendOp = AC_SRC_OVER;
 	blend.BlendFlags = 0;
@@ -74,7 +75,7 @@ void CAnim::render(HDC _dc)
 				, m_Atlas->GetDC()
 				, int(frm.vLeftTop.x), int(frm.vLeftTop.y)
 				, int(frm.vCutSize.x), int(frm.vCutSize.y)
-				, blend);
+				, blend);*/
 }
 
 void CAnim::Create(const wstring& _strName, CTexture* _Atlas

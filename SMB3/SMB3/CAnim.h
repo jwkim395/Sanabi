@@ -40,6 +40,7 @@ public:
         , Vec2 _vLeftTop, Vec2 _vCutSize, Vec2 _vOffset, float _Duration, int _MaxFrm);
 
     bool IsFinish() { return m_bFinish; }
+    int getFrame() { return m_iCurFrm; }
 
     void Reset()
     {

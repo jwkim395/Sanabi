@@ -18,6 +18,7 @@ public:
 
 private:
     virtual bool Load(const wstring& _strFilePath) override;
+    bool Load_r(const wstring& _strFilePath);
 
     void Create(UINT _Width, UINT Height);
 

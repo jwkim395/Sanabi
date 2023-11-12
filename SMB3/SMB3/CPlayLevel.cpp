@@ -15,13 +15,16 @@
 #include "CAssetMgr.h"
 #include "CSound.h"
 #include "CPathMgr.h"
+#include "CGoomba.h"
 
 void CPlayLevel::init()
 {
 	// 충돌 설정
 	CCollisionMgr::GetInst()->CheckCollision(MONSTER, PLAYER);
+	CCollisionMgr::GetInst()->CheckCollision(MONSTER, PLATFORM);
 	CCollisionMgr::GetInst()->CheckCollision(PLAYER_PJ, MONSTER);
 	CCollisionMgr::GetInst()->CheckCollision(PLAYER, PLATFORM);
+	
 }
 
 void CPlayLevel::enter()
@@ -48,6 +51,11 @@ void CPlayLevel::enter()
 	pPlayer->SetScale(Vec2(64.f, 64.f));
 	AddObject(PLAYER, pPlayer);
 
+	CMonster* pMonster = new CGoomba;
+	pMonster->SetPos(Vec2(400.f, 700.f));
+	pMonster->SetScale(Vec2(64.f, 64.f));
+	AddObject(MONSTER, pMonster);
+
 	// 플랫폼 설치
 	CPlatform* pPlatform = new CPlatform;
 	pPlatform->SetPos(Vec2(10.f, 700.f));
@@ -60,12 +68,14 @@ void CPlayLevel::enter()
 	AddObject(PLATFORM, pPlatform);
 
 	
+
+	
 	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
 	vLookAt /= 2.f;
 	CCamera::GetInst()->SetLookAt(vLookAt);
 	CCamera::GetInst()->FadeIn(0.3f);
 
-	
+	mIsDead = false;
 }
 
 void CPlayLevel::exit()

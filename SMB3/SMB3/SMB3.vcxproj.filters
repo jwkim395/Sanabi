@@ -52,9 +52,6 @@
     <Filter Include="Game\05. Object\Monster">
       <UniqueIdentifier>{ac8ec9c2-2b5b-436b-b400-679fa1345ff7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\05. Object\Chain">
-      <UniqueIdentifier>{810aa36e-e5ba-4943-ba3d-3c5bef90c61f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\05. Object\Platform">
       <UniqueIdentifier>{9495b4f6-bdf8-4c65-83a9-9ba8c90459d3}</UniqueIdentifier>
     </Filter>
@@ -63,12 +60,6 @@
     </Filter>
     <Filter Include="Game\05. Object\UI">
       <UniqueIdentifier>{4bab2a4c-7d61-434d-8197-6fefedf647d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\05. Object\Monster\Boss">
-      <UniqueIdentifier>{3d60d91c-6ca6-4942-b645-855bb399ca42}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\05. Object\Monster\Trex">
-      <UniqueIdentifier>{c47627c0-cfdc-42ef-a133-9cc96e1db01c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\06. Component\Animator">
       <UniqueIdentifier>{15d41905-eea2-49bd-9eb6-eba2b67ef19f}</UniqueIdentifier>
@@ -90,6 +81,12 @@
     </Filter>
     <Filter Include="Game\07. Asset\Texture">
       <UniqueIdentifier>{29d37d4b-77be-4a15-a44e-cb4d992360ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\Monster\Goomba">
+      <UniqueIdentifier>{93c98010-4196-460b-9538-fd819942f517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\05. Object\Monster\Turtle">
+      <UniqueIdentifier>{0826737f-206e-4b50-a0a4-7a997a94bc86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -237,6 +234,9 @@
     <ClInclude Include="SMB3.h">
       <Filter>Default</Filter>
     </ClInclude>
+    <ClInclude Include="CGoomba.h">
+      <Filter>Game\05. Object\Monster\Goomba</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -364,6 +364,9 @@
     </ClCompile>
     <ClCompile Include="CPlayLevel.cpp">
       <Filter>Game\04. Level\TutorialLevel</Filter>
+    </ClCompile>
+    <ClCompile Include="CGoomba.cpp">
+      <Filter>Game\05. Object\Monster\Goomba</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
