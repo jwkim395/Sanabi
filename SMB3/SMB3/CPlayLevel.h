@@ -12,6 +12,8 @@ public:
 
     virtual void tick() override;
 
+    void setObj(CTile*);
+
     void loadMap();
 
 };

@@ -29,7 +29,7 @@ void CPlayLevel::init()
 
 void CPlayLevel::enter()
 {	
-	/*
+	
 	CCamera::GetInst()->FadeOut(0.3f);
 	if (CLevelMgr::GetInst()->getMapData() == nullptr) {
 		// 미리 저장해놓은 맵 로딩
@@ -40,12 +40,15 @@ void CPlayLevel::enter()
 		CLayer* curLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::TILE);
 		for (int i = 0; i < curMapTiles.size(); ++i) {
 			AddObject(TILE, curMapTiles[i]);
+			CTile* tToObj = dynamic_cast<CTile*>(curMapTiles[i]);
+			if (nullptr != tToObj)
+				setObj(tToObj);
 		}
 		curMapTiles.clear();
 	}
 	// map > obj 화 필요
 
-	*/
+	/*
 	CMario* pPlayer = new CMario;
 	pPlayer->SetPos(Vec2(128.f, 700.f));
 	pPlayer->SetScale(Vec2(64.f, 64.f));
@@ -76,6 +79,7 @@ void CPlayLevel::enter()
 	CCamera::GetInst()->FadeIn(0.3f);
 
 	mIsDead = false;
+	*/
 }
 
 void CPlayLevel::exit()
@@ -88,6 +92,47 @@ void CPlayLevel::tick()
 	CLevel::tick();
 
 	// Enter 키가 눌리면 StartLevel 로 변환
+}
+
+void CPlayLevel::setObj(CTile* _tile)
+{
+	if (_tile->GetImgIdx() == 0) {
+		CMario* pPlayer = new CMario;
+		pPlayer->SetPos(_tile->GetPos());
+		pPlayer->SetScale(Vec2(64.f, 64.f));
+		AddObject(PLAYER, pPlayer);
+	}
+	// 원본 이미지로 불러오는 설정좀 해야댐 마리오는 되어있음
+	// 해당 함수에서 불러올 수 있도록 조정중
+	else if (_tile->GetImgIdx() == 1) {
+		// 코인 나오는 박스 추가
+	}
+	else if (_tile->GetImgIdx() == 2) {
+		// 파워업 아이템 나오는 박스 추가
+	}
+	else if (_tile->GetImgIdx() == 3) {
+		// 코인 추가
+	}
+	else if (_tile->GetImgIdx() == 4 || (_tile->GetImgIdx() >= 6 && _tile->GetImgIdx() <= 11)) {
+		// 안부서지는 박스, 땅 추가
+	}
+	else if (_tile->GetImgIdx() == 5) {
+		// 부서지는 박스 추가
+	}
+	else if (_tile->GetImgIdx() >= 12 && _tile->GetImgIdx() <= 15) {
+		// 파이프 추가
+	}
+	else if (_tile->GetImgIdx() >= 16 && _tile->GetImgIdx() <= 24) {
+		// 맨 위에만 충돌체 있는 박스 추가
+	}
+	else if (_tile->GetImgIdx() == 25) {
+		// end tile
+	}
+	else if (_tile->GetImgIdx() >= 26) {
+		// 굼바 추가
+	}
+
+
 }
 
 void CPlayLevel::loadMap()
