@@ -35,7 +35,6 @@ CMario::CMario()
 	m_Collider = AddComponent<CCollider>(L"MarioCollider");
 	m_Collider->SetScale(Vec2(50.f, 64.f));
 	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
-	// 발체크 시 pos + 32.f해주어야함
 
 	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"MarioAtlas", L"texture\\69712.png");
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"MarioLAtlas", L"texture\\69712_l.png");
@@ -168,8 +167,11 @@ void CMario::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Other
 {
 	if (dynamic_cast<CPlatform*>(_OtherObj))
 	{
+		float plattop = (_OtherCol->GetPos().y - _OtherCol->GetScale().y / 2.f);
+		float prevbottom = (_OwnCol->GetPrevPos().y + _OwnCol->GetScale().y / 2.f);
+		if (plattop >= prevbottom * 0.98f)
+			m_Movement->SetGround(true);
 		onBlock += 1;
-		m_Movement->SetGround(true);
 	}
 	if (dynamic_cast<CMonster*>(_OtherObj) && !_OtherObj->IsDead())
 	{

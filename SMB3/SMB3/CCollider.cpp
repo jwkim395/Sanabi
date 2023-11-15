@@ -35,8 +35,10 @@ CCollider::~CCollider()
 void CCollider::finaltick(float _DT)
 {
 	Vec2 vOwnerPos = GetOwner()->GetPos();
+	prevPos = GetOwner()->GetPrevPos();
 
 	m_vFinalPos = vOwnerPos + m_vOffsetPos;
+	prevPos += m_vOffsetPos;
 
 	// 현재 속해있는 레이어에 충돌체(본인) 를 등록
 	int iLayerIdx = GetOwner()->GetLayerIdx();
