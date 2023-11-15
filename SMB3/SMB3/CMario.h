@@ -18,10 +18,12 @@ protected:
 public:
     virtual void tick(float _DT) override;    
     virtual void BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
+    //virtual void Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
+    virtual void EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
+    void setFirstPos();
     void powerUp();
     void powerDown();
     void dead();
-    virtual void EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
 
 public:
     CLONE_DISABLE(CMario);

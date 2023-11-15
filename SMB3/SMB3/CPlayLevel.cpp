@@ -44,6 +44,7 @@ void CPlayLevel::enter()
 			CTile* tToObj = dynamic_cast<CTile*>(curMapTiles[i]);
 			if (nullptr != tToObj)
 				setObj(tToObj);
+			delete tToObj;
 		}
 		curMapTiles.clear();
 	}

@@ -9,6 +9,7 @@ private:
     Vec2    m_vOffsetPos;  // Owner 로부터 떨어진 거리
     Vec2    m_vScale;      // Owner 로부터 추가 배율
     Vec2    m_vFinalPos;   // 충돌체의 최종 위치
+    Vec2    prevPos;
 
     int     m_iCollisionCount;
 
@@ -22,6 +23,7 @@ public:
     Vec2 GetPos() { return m_vFinalPos; }
     Vec2 GetOffsetPos() { return m_vOffsetPos; }
     Vec2 GetScale() { return m_vScale; }
+    Vec2 GetPrevPos() { return prevPos; }
 
 
 public:

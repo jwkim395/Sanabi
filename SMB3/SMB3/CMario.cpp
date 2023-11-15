@@ -33,7 +33,8 @@ CMario::CMario()
 	SetScale(Vec2(64.f, 64.f));
 	m_Collider = AddComponent<CCollider>(L"MarioCollider");
 	m_Collider->SetScale(Vec2(64.f, 64.f));
-	m_Collider->SetOffsetPos(Vec2(0.f, -32.f));
+	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
+	// 발체크 시 pos + 32.f해주어야함
 
 	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"MarioAtlas", L"texture\\69712.png");
 	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"MarioLAtlas", L"texture\\69712_l.png");
@@ -72,11 +73,12 @@ CMario::~CMario()
 }
 
 void CMario::tick(float _DT)
-{	
+{
+	Vec2 temp = GetPos();
 	Super::tick(_DT);
 
 	Vec2 vPos = GetPos();
-
+	
 	if (KEY_PRESSED(KEY::LSHIFT))
 	{
 		if (KEY_TAP(LEFT)) {
@@ -149,7 +151,7 @@ void CMario::tick(float _DT)
 	if (KEY_PRESSED(SPACE))
 	{
 		if (!m_Movement->IsGround() && jumpedTime <= 0.8f) {
-			m_Movement->AddForce(Vec2(0.f, -2500.f * (1 - jumpedTime / 0.8f)));
+			m_Movement->AddForce(Vec2(0.f, -2800.f * (1 - jumpedTime / 0.8f)));
 			jumpedTime += DT;
 		}
 	}
@@ -157,7 +159,7 @@ void CMario::tick(float _DT)
 		powerUp();
 	}
 
-
+	prevPos = temp;
 	SetPos(vPos);
 }
 
@@ -165,22 +167,9 @@ void CMario::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Other
 {
 	if (dynamic_cast<CPlatform*>(_OtherObj))
 	{
-		/*if ((((m_Collider->GetPos().x - m_Collider->GetScale().x / 2.f > _OtherObj->GetPos().x - _OtherObj->GetScale().x / 2.f)
-			&& (m_Collider->GetPos().x - m_Collider->GetScale().x / 2.f < _OtherObj->GetPos().x + _OtherObj->GetScale().x / 2.f))
-			|| ((m_Collider->GetPos().x + (m_Collider->GetScale().x / 2.f) > _OtherObj->GetPos().x - (_OtherObj->GetScale().x / 2.f))
-				&& (m_Collider->GetPos().x + (m_Collider->GetScale().x / 2.f) < _OtherObj->GetPos().x + (_OtherObj->GetScale().x / 2.f))))
-			&& abs(m_Collider->GetPos().y + m_Collider->GetScale().y / 2 - (_OtherCol->GetPos().y - _OtherCol->GetScale().y / 2)) < abs(m_Collider->GetPos().y + m_Collider->GetScale().y / 2 - (_OtherCol->GetPos().y - (_OtherCol->GetScale().y / 2) / 0.75)))
-		{
-			SetPos(Vec2(m_Collider->GetPos().x, _OtherObj->GetPos().y + _OtherObj->GetScale().y / 2.f));
-			m_Movement->SetVelocity(Vec2(m_Movement->GetVelocity().x, 0.f));
-			m_Movement->SetGround(true);
-		}
-		else{
-			SetPos(Vec2(_OtherObj->GetPos().x - _OtherObj->GetScale().x/2, GetPos().y));
-		}*/
+		m_Movement->SetGround(true);
 	}
-
-	else if (dynamic_cast<CMonster*>(_OtherObj) && !_OtherObj->IsDead())
+	if (dynamic_cast<CMonster*>(_OtherObj) && !_OtherObj->IsDead())
 	{
 		// 콜라이터 양쪽 x좌표 둘중 하나가 플랫폼 x좌표 범위안 + y좌표가
 		if ((((m_Collider->GetPos().x - m_Collider->GetScale().x / 2.f > _OtherObj->GetPos().x - _OtherObj->GetScale().x / 2.f + 1.f)
@@ -196,6 +185,43 @@ void CMario::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Other
 	}
 }
 
+/*
+void CMario::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
+{
+	
+	float plattop = (_OtherCol->GetPos().y - _OtherCol->GetScale().y / 2.f);
+	float otherprevbottom = (GetPrevPos().y + GetScale().y / 2.f);
+	//float otherbottom =( _OtherCol->GetPos().y +_OtherCol->GetScale().y / 2.f);
+
+	//if (_OwnCol->GetName() == L"PlatformCollider2")
+	//   LOG(LOG_LEVEL::LOG, std::to_wstring(otherbottom).c_str());
+	//if ((UINT)LAYER::MONSTER == _OtherObj->GetLayerIdx())
+	//   int a = 0;
+
+	float yfix = 0.99f;
+
+
+	if (plattop >= otherprevbottom * yfix)// && plattop <= otherbottom)
+	{
+
+		float up = (_OtherCol->GetScale().y / 2.f
+			+ GetScale().y / 2.f
+			- abs(_OtherCol->GetPos().y
+				- (GetPos().y))
+			) / 2.f;
+
+		SetPos(Vec2(GetPos().x, GetPos().y - up));
+	}
+}*/
+
+void CMario::EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
+{
+	if (dynamic_cast<CPlatform*>(_OtherObj))
+	{
+		m_Movement->SetGround(false);
+	}
+}
+
 void CMario::powerUp()
 {
 	if (status == 0) {
@@ -203,6 +229,8 @@ void CMario::powerUp()
 		m_Animator->Play(L"MINI_TO_SUPER", true);
 	}
 }
+
+
 
 void CMario::powerDown()
 {
@@ -226,10 +254,3 @@ void CMario::dead()
 }
 
 
-void CMario::EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
-{
-	if (dynamic_cast<CPlatform*>(_OtherObj))
-	{
-		m_Movement->SetGround(false);
-	}
-}

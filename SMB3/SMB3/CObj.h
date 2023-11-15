@@ -9,17 +9,26 @@
 class CObj
 	: public CEntity
 {
-private:
+protected:
 	Vec2				m_Pos;
 	Vec2				m_Scale;
 	vector<CComponent*>	m_vecComponent;
 	int					m_iLayerIdx;
+	Vec2 prevPos;
 	
 
 public:
 	Vec2 GetPos() { return m_Pos; }
 	Vec2 GetRenderPos() { return CCamera::GetInst()->GetRenderPos(m_Pos); }
 	Vec2 GetScale() { return m_Scale; }
+	Vec2 GetPrevPos() { return prevPos; }
+	CMovement* GetMovement() {
+		for (int i = 0; i < m_vecComponent.size(); ++i) {
+			if (dynamic_cast<CMovement*>(m_vecComponent[i]))
+				return dynamic_cast<CMovement*>(m_vecComponent[i]);
+		}
+		return nullptr;
+	}
 
 	void SetPos(Vec2 _Pos) { m_Pos = _Pos; }
 	void SetScale(Vec2 _Scale) { m_Scale = _Scale; }

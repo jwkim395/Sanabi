@@ -32,11 +32,14 @@ CMonster::~CMonster()
 void CMonster::begin()
 {
 	Vec2 vPos = GetPos();
+	prevPos = GetPos();
 }
 
 void CMonster::tick(float _DT)
 {
+	Vec2 temp = GetPos();
 	Super::tick(_DT);
+	prevPos = temp;
 
 
 }
