@@ -48,6 +48,11 @@ void CPlatform::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCo
     {
         float plattop = (_OwnCol->GetPos().y - _OwnCol->GetScale().y / 2.f);
         float otherprevbottom = (_OtherCol->GetPrevPos().y + _OtherCol->GetScale().y / 2.f);
+
+        float platRight = (_OwnCol->GetPos().x + _OwnCol->GetScale().x / 2.f);
+        float otherRight = (_OtherCol->GetPrevPos().x + _OtherCol->GetScale().x / 2.f);
+        float platLeft = (_OwnCol->GetPos().x - _OwnCol->GetScale().y / 2.f);
+        float otherLeft = (_OtherCol->GetPrevPos().x - _OtherCol->GetScale().x / 2.f);
         //float otherbottom =( _OtherCol->GetPos().y +_OtherCol->GetScale().y / 2.f);
 
         //if (_OwnCol->GetName() == L"PlatformCollider2")
@@ -69,6 +74,29 @@ void CPlatform::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCo
 
             _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x, _OtherObj->GetPos().y - up));
         }
+        else {
+            if (platRight >= otherLeft)// && plattop <= otherbottom)
+            {
+                float right = (_OwnCol->GetScale().x / 2.f
+                    + _OtherCol->GetScale().x / 2.f
+                    - abs((_OtherCol->GetPos().x))
+                    - _OwnCol->GetPos().x) / 2.f;
+
+                _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x + right, _OtherObj->GetPos().y));
+            }
+            else if (platLeft <= otherRight)// && plattop <= otherbottom)
+            {
+
+                float right = (_OwnCol->GetScale().x / 2.f
+                    + _OtherCol->GetScale().x / 2.f
+                    - abs((_OtherCol->GetPos().x))
+                    - _OwnCol->GetPos().x) / 2.f;
+
+                _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x - right, _OtherObj->GetPos().y));
+            }
+        }
+        
+
     }
 }
 
@@ -79,6 +107,11 @@ void CPlatform::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Ot
     {
         float plattop = (_OwnCol->GetPos().y - _OwnCol->GetScale().y / 2.f);
         float otherprevbottom = (_OtherCol->GetPrevPos().y + _OtherCol->GetScale().y / 2.f);
+
+        float platRight = (_OwnCol->GetPos().x + _OwnCol->GetScale().x / 2.f);
+        float otherRight = (_OtherCol->GetPrevPos().x + _OtherCol->GetScale().x / 2.f);
+        float platLeft = (_OwnCol->GetPos().x - _OwnCol->GetScale().y / 2.f);
+        float otherLeft = (_OtherCol->GetPrevPos().x - _OtherCol->GetScale().x / 2.f);
 
         float yfix = ((UINT)LAYER::PLAYER == _OtherObj->GetLayerIdx()) ? 0.99f : 0.97f;
 
@@ -92,6 +125,15 @@ void CPlatform::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Ot
             {
                 Vec2 v = mov->GetVelocity();
                 mov->SetVelocity(Vec2(v.x, 0.f));
+            }
+        }
+        else if (platRight >= otherLeft || platLeft <= otherRight) {
+            CMovement* mov = _OtherObj->GetMovement();
+
+            if (nullptr != mov)
+            {
+                Vec2 v = mov->GetVelocity();
+                mov->SetVelocity(Vec2(0.f, v.y));
             }
         }
     }

@@ -14,6 +14,7 @@ protected:
     Vec2 firstPos;
     bool watchDir; // true > ¿À¸¥ÂÊ º½, false > ¿ÞÂÊ º½
     float powering;
+    int onBlock;
 
 public:
     virtual void tick(float _DT) override;    

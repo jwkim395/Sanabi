@@ -24,7 +24,6 @@ void CPlayLevel::init()
 	// 충돌 설정
 	CCollisionMgr::GetInst()->CheckCollision(MONSTER, PLAYER);
 	CCollisionMgr::GetInst()->CheckCollision(MONSTER, PLATFORM);
-	CCollisionMgr::GetInst()->CheckCollision(PLAYER_PJ, MONSTER);
 	CCollisionMgr::GetInst()->CheckCollision(PLAYER, PLATFORM);
 	
 }

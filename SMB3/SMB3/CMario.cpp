@@ -26,13 +26,14 @@ CMario::CMario()
 	, jumpedTime(0.f)
 	, watchDir(true)
 	, powering(4.f)
+	, onBlock(0)
 {	
 	SetName(L"Player");
 	// 충돌체 컴포넌트 추가
 	SetPos(Vec2(128.f, 700.f));
 	SetScale(Vec2(64.f, 64.f));
 	m_Collider = AddComponent<CCollider>(L"MarioCollider");
-	m_Collider->SetScale(Vec2(64.f, 64.f));
+	m_Collider->SetScale(Vec2(50.f, 64.f));
 	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
 	// 발체크 시 pos + 32.f해주어야함
 
@@ -167,6 +168,7 @@ void CMario::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Other
 {
 	if (dynamic_cast<CPlatform*>(_OtherObj))
 	{
+		onBlock += 1;
 		m_Movement->SetGround(true);
 	}
 	if (dynamic_cast<CMonster*>(_OtherObj) && !_OtherObj->IsDead())
@@ -216,10 +218,9 @@ void CMario::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 
 void CMario::EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 {
-	if (dynamic_cast<CPlatform*>(_OtherObj))
-	{
+	onBlock -= 1;
+	if (onBlock == 0)
 		m_Movement->SetGround(false);
-	}
 }
 
 void CMario::powerUp()
