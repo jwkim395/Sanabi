@@ -88,9 +88,6 @@
     <Filter Include="Game\05. Object\Monster\Turtle">
       <UniqueIdentifier>{0826737f-206e-4b50-a0a4-7a997a94bc86}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\05. Object\Item">
-      <UniqueIdentifier>{c6e29394-7441-4a67-a3b7-0f3d4b2b0613}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -246,9 +243,6 @@
     <ClInclude Include="CBonusBox.h">
       <Filter>Game\05. Object\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="CItem.h">
-      <Filter>Game\05. Object\Item</Filter>
-    </ClInclude>
     <ClInclude Include="CUnbreakableBlock.h">
       <Filter>Game\05. Object\Platform</Filter>
     </ClInclude>
@@ -256,6 +250,12 @@
       <Filter>Game\05. Object\Platform</Filter>
     </ClInclude>
     <ClInclude Include="CEnd.h">
+      <Filter>Game\05. Object\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="platforms.h">
+      <Filter>Game\01. Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CItem.h">
       <Filter>Game\05. Object\Platform</Filter>
     </ClInclude>
   </ItemGroup>
@@ -395,9 +395,6 @@
     <ClCompile Include="CBonusBox.cpp">
       <Filter>Game\05. Object\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="CItem.cpp">
-      <Filter>Game\05. Object\Item</Filter>
-    </ClCompile>
     <ClCompile Include="CUnbreakableBlock.cpp">
       <Filter>Game\05. Object\Platform</Filter>
     </ClCompile>
@@ -405,6 +402,9 @@
       <Filter>Game\05. Object\Platform</Filter>
     </ClCompile>
     <ClCompile Include="CEnd.cpp">
+      <Filter>Game\05. Object\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="CItem.cpp">
       <Filter>Game\05. Object\Platform</Filter>
     </ClCompile>
   </ItemGroup>

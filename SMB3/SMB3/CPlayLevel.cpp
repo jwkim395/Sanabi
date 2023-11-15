@@ -17,6 +17,8 @@
 #include "CPathMgr.h"
 #include "CGoomba.h"
 
+#include "platforms.h"
+
 void CPlayLevel::init()
 {
 	// 충돌 설정
@@ -39,47 +41,16 @@ void CPlayLevel::enter()
 		vector<CObj*> curMapTiles = CLevelMgr::GetInst()->getMapData()->tileData;
 		CLayer* curLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::TILE);
 		for (int i = 0; i < curMapTiles.size(); ++i) {
-			AddObject(TILE, curMapTiles[i]);
 			CTile* tToObj = dynamic_cast<CTile*>(curMapTiles[i]);
 			if (nullptr != tToObj)
 				setObj(tToObj);
 		}
 		curMapTiles.clear();
 	}
+
 	// map > obj 화 필요
 
-	/*
-	CMario* pPlayer = new CMario;
-	pPlayer->SetPos(Vec2(128.f, 700.f));
-	pPlayer->SetScale(Vec2(64.f, 64.f));
-	AddObject(PLAYER, pPlayer);
-
-	CMonster* pMonster = new CGoomba;
-	pMonster->SetPos(Vec2(400.f, 700.f));
-	pMonster->SetScale(Vec2(64.f, 64.f));
-	AddObject(MONSTER, pMonster);
-
-	// 플랫폼 설치
-	CPlatform* pPlatform = new CPlatform;
-	pPlatform->SetPos(Vec2(10.f, 700.f));
-	pPlatform->SetScale(Vec2(1500.f, 64.f));
-	AddObject(PLATFORM, pPlatform);
-
-	pPlatform = new CPlatform;
-	pPlatform->SetPos(Vec2(500.f, 572.f));
-	pPlatform->SetScale(Vec2(64.f, 192.f));
-	AddObject(PLATFORM, pPlatform);
-
-	
-
-	
-	Vec2 vLookAt = CEngine::GetInst()->GetResolution();
-	vLookAt /= 2.f;
-	CCamera::GetInst()->SetLookAt(vLookAt);
 	CCamera::GetInst()->FadeIn(0.3f);
-
-	mIsDead = false;
-	*/
 }
 
 void CPlayLevel::exit()
@@ -106,30 +77,55 @@ void CPlayLevel::setObj(CTile* _tile)
 	// 해당 함수에서 불러올 수 있도록 조정중
 	else if (_tile->GetImgIdx() == 1) {
 		// 코인 나오는 박스 추가
+		CBonusBox* cBox = new CBonusBox;
+		cBox->SetPos(_tile->GetPos());
+		cBox->SetScale(Vec2(64.f, 64.f));
+		AddObject(ITEM, cBox);
 	}
 	else if (_tile->GetImgIdx() == 2) {
 		// 파워업 아이템 나오는 박스 추가
 	}
 	else if (_tile->GetImgIdx() == 3) {
 		// 코인 추가
+
 	}
 	else if (_tile->GetImgIdx() == 4 || (_tile->GetImgIdx() >= 6 && _tile->GetImgIdx() <= 11)) {
 		// 안부서지는 박스, 땅 추가
+		CUnbreakableBlock* CUnBlock = new CUnbreakableBlock(_tile->GetImgIdx());
+		CUnBlock->SetPos(_tile->GetPos());
+		CUnBlock->SetScale(Vec2(64.f, 64.f));
+		AddObject(PLATFORM, CUnBlock);
 	}
 	else if (_tile->GetImgIdx() == 5) {
 		// 부서지는 박스 추가
+		CBreakableBlock* CBlock = new CBreakableBlock;
+		CBlock->SetPos(_tile->GetPos());
+		CBlock->SetScale(Vec2(64.f, 64.f));
+		AddObject(PLATFORM, CBlock);
 	}
 	else if (_tile->GetImgIdx() >= 12 && _tile->GetImgIdx() <= 15) {
 		// 파이프 추가
+		CPipe* Cp = new CPipe(_tile->GetImgIdx());
+		Cp->SetPos(_tile->GetPos());
+		Cp->SetScale(Vec2(64.f, 64.f));
+		AddObject(PLATFORM, Cp);
 	}
 	else if (_tile->GetImgIdx() >= 16 && _tile->GetImgIdx() <= 24) {
 		// 맨 위에만 충돌체 있는 박스 추가
 	}
 	else if (_tile->GetImgIdx() == 25) {
 		// end tile
+		CEnd* endTile = new CEnd;
+		endTile->SetPos(_tile->GetPos());
+		endTile->SetScale(Vec2(64.f, 64.f));
+		AddObject(PLATFORM, endTile);
 	}
 	else if (_tile->GetImgIdx() >= 26) {
 		// 굼바 추가
+		CMonster* pMonster = new CGoomba;
+		pMonster->SetPos(_tile->GetPos());
+		pMonster->SetScale(Vec2(64.f, 64.f));
+		AddObject(MONSTER, pMonster);
 	}
 
 
