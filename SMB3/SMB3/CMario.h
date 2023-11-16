@@ -21,7 +21,7 @@ public:
     virtual void BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
     //virtual void Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
     virtual void EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
-    void setFirstPos();
+    void setFirstPos(Vec2 _pos) { firstPos = _pos; }
     void powerUp();
     void powerDown();
     void dead();

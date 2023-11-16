@@ -33,7 +33,7 @@ void CGoomba::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Othe
 	else if (dynamic_cast<CPlatform*>(_OtherObj)) {
 		if(GetPos().y > _OtherObj->GetPos().y - _OtherObj->GetScale().y / 2 &&
 			GetPos().y < _OtherObj->GetPos().y + _OtherObj->GetScale().y / 2)
-		velo *= -1.f;
+			velo *= -1.f;
 	}
 }
 

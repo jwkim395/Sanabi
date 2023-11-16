@@ -78,8 +78,8 @@ void CMario::tick(float _DT)
 	if (CLevelMgr::GetInst()->getmTime() <= 0) {
 		Vec2 temp = GetPos();
 		Super::tick(_DT);
-
 		Vec2 vPos = GetPos();
+
 		if (KEY_TAP(DOWN) && status > 1) {
 			m_Animator->Play(L"SUPER_Sit", true);
 			m_Collider->SetScale(Vec2(64.f, 64.f));
@@ -125,7 +125,6 @@ void CMario::tick(float _DT)
 			m_Movement->AddForce(Vec2(800.f, 0.f));
 		}
 		SetPos(Vec2(GetPos().x, GetPos().y - 32.f));
-		}
 		if (KEY_RELEASED(KEY::LSHIFT))
 		{
 			m_Movement->SetMaxSpeed(192.f);
@@ -167,9 +166,14 @@ void CMario::tick(float _DT)
 				jumpedTime += DT;
 			}
 		}
-
+		if (KEY_TAP(_0)) {
+			dead();
+		}
 		prevPos = temp;
 		SetPos(vPos);
+	}
+	else if (CLevelMgr::GetInst()->getmTime() > 0 && CLevelMgr::GetInst()->getMarioStatus() == 3) {
+		m_Movement->AddForce(Vec2(0.f, 1200.f));
 	}
 }
 
@@ -248,8 +252,9 @@ void CMario::powerDown()
 void CMario::dead()
 {
 	m_Animator->Play(L"MINI_Dead", true);
-	m_Movement->SetVelocity(Vec2(0.f, -1200.f));
+	m_Movement->SetVelocity(Vec2(0.f, -800.f));
 	CLevelMgr::GetInst()->setmTime(5.f);
+	CLevelMgr::GetInst()->setMarioStatus(3);
 }
 
 

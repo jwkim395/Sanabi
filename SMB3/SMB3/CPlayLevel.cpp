@@ -39,28 +39,31 @@ void CPlayLevel::enter()
 	}
 	else {
 		vector<CObj*> curMapTiles = CLevelMgr::GetInst()->getMapData()->tileData;
-		CLayer* curLayer = CLevelMgr::GetInst()->GetCurLevel()->GetLayer(LAYER::TILE);
 		for (int i = 0; i < curMapTiles.size(); ++i) {
 			CTile* tToObj = dynamic_cast<CTile*>(curMapTiles[i]);
 			if (nullptr != tToObj)
 				setObj(tToObj);
-			delete tToObj;
 		}
-		curMapTiles.clear();
 	}
 
-	// map > obj 화 필요
-
+	CLevelMgr::GetInst()->setMarioStatus(1);
 	CCamera::GetInst()->FadeIn(0.3f);
 }
 
 void CPlayLevel::exit()
 {
+	CLevelMgr::GetInst()->clearMapData();
 	DeleteAllObjects();
 }
 
 void CPlayLevel::tick()
 {
+	if (CLevelMgr::GetInst()->getmTime() <= 0.f && CLevelMgr::GetInst()->getMarioStatus() == 3) {
+		enter();
+	}
+	if (CLevelMgr::GetInst()->getmTime() <= 0.f && CLevelMgr::GetInst()->getMarioStatus() == 4) {
+		ChangeLevel(LEVEL_TYPE::EDITOR_LEVEL);
+	}
 	if (CLevelMgr::GetInst()->getmTime() > 0.f) {
 		CCollisionMgr::GetInst()->UncheckCollision(MONSTER, PLAYER);
 		CCollisionMgr::GetInst()->UncheckCollision(MONSTER, PLATFORM);
@@ -76,6 +79,7 @@ void CPlayLevel::tick()
 		CCollisionMgr::GetInst()->CheckCollision(ITEM, PLATFORM);
 	}
 	CLevel::tick();
+	
 
 	// Enter 키가 눌리면 StartLevel 로 변환
 }
