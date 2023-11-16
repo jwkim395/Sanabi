@@ -15,6 +15,7 @@
 #include "CMario.h"
 #include "CMonster.h"
 #include "CPlatform.h"
+#include "CTimeMgr.h"
 
 CLevelMgr::CLevelMgr()
 	: m_pCurLevel(nullptr)
@@ -49,6 +50,7 @@ void CLevelMgr::init()
 	::ChangeLevel(LEVEL_TYPE::EDITOR_LEVEL);
 	selectedTile = nullptr;
 	curMap = nullptr;
+	mTime = 0.f;
 }
 
 void CLevelMgr::tick()
@@ -56,7 +58,9 @@ void CLevelMgr::tick()
 	if (nullptr != m_pCurLevel) {
 		m_pCurLevel->tick();
 	}
-		
+	if (mTime > 0.f) {
+		mTime -= DT;
+	}
 }
 
 void CLevelMgr::render(HDC _dc)

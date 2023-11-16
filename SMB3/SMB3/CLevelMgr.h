@@ -21,8 +21,11 @@ private:
 	CLevel*			m_arrLevels[(UINT)LEVEL_TYPE::END];
 	class CImageUI* selectedTile;
 	mapData*		curMap;
+	float mTime;
 
 public:
+	void setmTime(float t) { mTime = t; }
+	float getmTime() { return mTime; }
 	CLevel* GetCurLevel() { return m_pCurLevel; }
 	CImageUI* GetTile() { return selectedTile; }
 	void SetTile(CImageUI* _ui) { selectedTile = _ui; }

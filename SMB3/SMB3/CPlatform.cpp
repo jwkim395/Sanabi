@@ -2,6 +2,7 @@
 #include "CPlatform.h"
 #include "CTexture.h"
 #include "components.h"
+#include "CItem.h"
 
 CPlatform::CPlatform()
 {
@@ -44,7 +45,7 @@ void CPlatform::render(HDC _dc)
 
 void CPlatform::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 {
-    if ((UINT)LAYER::MONSTER == _OtherObj->GetLayerIdx() || (UINT)LAYER::PLAYER == _OtherObj->GetLayerIdx())
+    if ((UINT)LAYER::MONSTER == _OtherObj->GetLayerIdx() || (UINT)LAYER::PLAYER == _OtherObj->GetLayerIdx() || (UINT)LAYER::ITEM == _OtherObj->GetLayerIdx())
     {
         float plattop = (_OwnCol->GetPos().y - _OwnCol->GetScale().y / 2.f);
         float otherprevbottom = (_OtherCol->GetPrevPos().y + _OtherCol->GetScale().y / 2.f);
@@ -64,7 +65,8 @@ void CPlatform::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCo
         //   int a = 0;
 
         float yfix = ((UINT)LAYER::PLAYER == _OtherObj->GetLayerIdx()) ? 0.99f : 0.95f;
-
+        if (dynamic_cast<CItem*>(_OtherObj) && !dynamic_cast<CItem*>(_OtherObj)->getIsMoving())
+            return;
 
         if (GetPos().y > _OtherObj->GetPos().y && plattop >= otherprevbottom * yfix)// && plattop <= otherbottom)
         {
@@ -137,7 +139,8 @@ void CPlatform::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCo
 void CPlatform::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 {
     if ((UINT)LAYER::PLAYER == _OtherObj->GetLayerIdx() ||
-        (UINT)LAYER::MONSTER == _OtherObj->GetLayerIdx())
+        (UINT)LAYER::MONSTER == _OtherObj->GetLayerIdx() || 
+        (UINT)LAYER::ITEM == _OtherObj->GetLayerIdx())
     {
         float plattop = (_OwnCol->GetPos().y - _OwnCol->GetScale().y / 2.f);
         float otherprevbottom = (_OtherCol->GetPrevPos().y + _OtherCol->GetScale().y / 2.f);

@@ -1,7 +1,20 @@
 #include "pch.h"
 #include "CEnd.h"
 #include "CAssetMgr.h"
+#include "CLevelMgr.h"
 
+
+void CEnd::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
+{
+}
+
+void CEnd::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
+{
+	if (_OtherObj->GetLayerIdx() == PLAYER) {
+		_OtherObj->GetMovement()->SetVelocity(Vec2(0, 0));
+		
+	}
+}
 
 CEnd::CEnd() {
 	m_Collider = AddComponent<CCollider>(L"EndCollider");

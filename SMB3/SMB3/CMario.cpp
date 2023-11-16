@@ -15,6 +15,7 @@
 #include "CPlatform.h"
 #include "CMonster.h"
 #include "CLevelMgr.h"
+#include "CItem.h"
 
 #include "components.h"
 
@@ -74,93 +75,102 @@ CMario::~CMario()
 
 void CMario::tick(float _DT)
 {
-	Vec2 temp = GetPos();
-	Super::tick(_DT);
+	if (CLevelMgr::GetInst()->getmTime() <= 0) {
+		Vec2 temp = GetPos();
+		Super::tick(_DT);
 
-	Vec2 vPos = GetPos();
-	
-	if (KEY_PRESSED(KEY::LSHIFT))
-	{
-		if (KEY_TAP(LEFT)) {
-			watchDir = false;
-			m_Animator->Play(L"MINI_Run_L", true);
+		Vec2 vPos = GetPos();
+		if (KEY_TAP(DOWN) && status > 1) {
+			m_Animator->Play(L"SUPER_Sit", true);
+			m_Collider->SetScale(Vec2(64.f, 64.f));
+			SetPos(Vec2(GetPos().x, GetPos().y + 32.f));
 		}
-		else if (KEY_TAP(RIGHT)) {
-			watchDir = true;
-			m_Animator->Play(L"MINI_Run", true);
+		else if (KEY_RELEASED(DOWN) && status > 1) {
+			m_Animator->Play(L"SUPER_IDLE", true);
+			m_Collider->SetScale(Vec2(64.f, 128.f));
+		}
+		else if (KEY_PRESSED(KEY::LSHIFT))
+		{
+			if (KEY_TAP(LEFT)) {
+				watchDir = false;
+				m_Animator->Play(L"MINI_Run_L", true);
+			}
+			else if (KEY_TAP(RIGHT)) {
+				watchDir = true;
+				m_Animator->Play(L"MINI_Run", true);
+			}
+			else if (KEY_PRESSED(LEFT)) {
+				m_Movement->SetMaxSpeed(350.f);
+				m_Movement->AddForce(Vec2(-800.f, 0.f));
+			}
+			else if (KEY_PRESSED(RIGHT)) {
+				m_Movement->SetMaxSpeed(350.f);
+				m_Movement->AddForce(Vec2(800.f, 0.f));
+			}
+		}
+		else if (KEY_TAP(LEFT))
+		{
+			watchDir = false;
+			m_Animator->Play(L"MINI_Walk_L", true);
 		}
 		else if (KEY_PRESSED(LEFT)) {
-			m_Movement->SetMaxSpeed(350.f);
 			m_Movement->AddForce(Vec2(-800.f, 0.f));
 		}
+		else if (KEY_TAP(RIGHT))
+		{
+			watchDir = true;
+			m_Animator->Play(L"MINI_Walk", true);
+		}
 		else if (KEY_PRESSED(RIGHT)) {
-			m_Movement->SetMaxSpeed(350.f);
 			m_Movement->AddForce(Vec2(800.f, 0.f));
 		}
-	}
-	if (KEY_TAP(LEFT))
-	{
-		watchDir = false;
-		m_Animator->Play(L"MINI_Walk_L", true);
-	}
-	if (KEY_PRESSED(LEFT)) {
-		m_Movement->AddForce(Vec2(-800.f, 0.f));
-	}
-	if (KEY_TAP(RIGHT))
-	{
-		watchDir = true;
-		m_Animator->Play(L"MINI_Walk", true);
-	}
-	if (KEY_PRESSED(RIGHT)) {
-		m_Movement->AddForce(Vec2(800.f, 0.f));
-	}
-	if (KEY_RELEASED(KEY::LSHIFT))
-	{
-		m_Movement->SetMaxSpeed(192.f);
-	}
-
-	if (KEY_RELEASED(LEFT))
-	{
-		m_Animator->Play(L"MINI_IDLE_L", true);
-	}
-
-	if (KEY_RELEASED(RIGHT))
-	{
-		m_Animator->Play(L"MINI_IDLE", true);
-
-	}
-
-	if (KEY_TAP(SPACE) && watchDir)
-	{
-		m_Animator->Play(L"MINI_Jump", true);
-		if (m_Movement->IsGround()) {
-			m_Movement->SetVelocity(Vec2(m_Movement->GetVelocity().x, -700.f));
-			m_Movement->SetGround(false);
-			jumpedTime = 0.f;
+		SetPos(Vec2(GetPos().x, GetPos().y - 32.f));
 		}
-	}
-	if (KEY_TAP(SPACE) && !watchDir)
-	{
-		m_Animator->Play(L"MINI_Jump_L", true);
-		if (m_Movement->IsGround()) {
-			m_Movement->SetVelocity(Vec2(m_Movement->GetVelocity().x, -700.f));
-			m_Movement->SetGround(false);
-			jumpedTime = 0.f;
+		if (KEY_RELEASED(KEY::LSHIFT))
+		{
+			m_Movement->SetMaxSpeed(192.f);
 		}
-	}
-	if (KEY_PRESSED(SPACE))
-	{
-		if (!m_Movement->IsGround() && jumpedTime <= 0.8f) {
-			m_Movement->AddForce(Vec2(0.f, -2800.f * (1 - jumpedTime / 0.8f)));
-			jumpedTime += DT;
-		}
-	}
-	if (KEY_TAP(_2)) {
-		powerUp();
-	}
 
-	prevPos = temp;
-	SetPos(vPos);
+		if (KEY_RELEASED(LEFT))
+		{
+			m_Animator->Play(L"MINI_IDLE_L", true);
+		}
+
+		if (KEY_RELEASED(RIGHT))
+		{
+			m_Animator->Play(L"MINI_IDLE", true);
+
+		}
+
+		if (KEY_TAP(SPACE) && watchDir)
+		{
+			m_Animator->Play(L"MINI_Jump", true);
+			if (m_Movement->IsGround()) {
+				m_Movement->SetVelocity(Vec2(m_Movement->GetVelocity().x, -700.f));
+				m_Movement->SetGround(false);
+				jumpedTime = 0.f;
+			}
+		}
+		if (KEY_TAP(SPACE) && !watchDir)
+		{
+			m_Animator->Play(L"MINI_Jump_L", true);
+			if (m_Movement->IsGround()) {
+				m_Movement->SetVelocity(Vec2(m_Movement->GetVelocity().x, -700.f));
+				m_Movement->SetGround(false);
+				jumpedTime = 0.f;
+			}
+		}
+		if (KEY_PRESSED(SPACE))
+		{
+			if (!m_Movement->IsGround() && jumpedTime <= 0.8f) {
+				m_Movement->AddForce(Vec2(0.f, -2800.f * (1 - jumpedTime / 0.8f)));
+				jumpedTime += DT;
+			}
+		}
+
+		prevPos = temp;
+		SetPos(vPos);
+	}
 }
 
 void CMario::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
@@ -187,36 +197,16 @@ void CMario::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Other
 		}
 		
 	}
+	if ((UINT)LAYER::ITEM == _OtherObj->GetLayerIdx()) {
+		CItem* curItem = dynamic_cast<CItem*>(_OtherObj);
+		if (curItem) {
+			if (curItem->getIsMoving() && curItem->getItemNum() == 2) {
+				powerUp();
+			}
+		}
+	}
 }
 
-/*
-void CMario::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
-{
-	
-	float plattop = (_OtherCol->GetPos().y - _OtherCol->GetScale().y / 2.f);
-	float otherprevbottom = (GetPrevPos().y + GetScale().y / 2.f);
-	//float otherbottom =( _OtherCol->GetPos().y +_OtherCol->GetScale().y / 2.f);
-
-	//if (_OwnCol->GetName() == L"PlatformCollider2")
-	//   LOG(LOG_LEVEL::LOG, std::to_wstring(otherbottom).c_str());
-	//if ((UINT)LAYER::MONSTER == _OtherObj->GetLayerIdx())
-	//   int a = 0;
-
-	float yfix = 0.99f;
-
-
-	if (plattop >= otherprevbottom * yfix)// && plattop <= otherbottom)
-	{
-
-		float up = (_OtherCol->GetScale().y / 2.f
-			+ GetScale().y / 2.f
-			- abs(_OtherCol->GetPos().y
-				- (GetPos().y))
-			) / 2.f;
-
-		SetPos(Vec2(GetPos().x, GetPos().y - up));
-	}
-}*/
 
 void CMario::EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 {
@@ -230,6 +220,10 @@ void CMario::powerUp()
 	if (status == 0) {
 		status = 1;
 		m_Animator->Play(L"MINI_TO_SUPER", true);
+		SetPos(Vec2(GetPos().x, GetPos().y - 32.f));
+		SetScale(Vec2(64.f, 128.f));
+		m_Collider->SetScale(Vec2(64.f, 128.f));
+		CLevelMgr::GetInst()->setmTime(1.5f);
 	}
 }
 
@@ -242,8 +236,9 @@ void CMario::powerDown()
 	}
 	else if (status == 1) {
 		// 작아지는 애니메이션
-		m_Collider->SetScale(Vec2(64.f, 64.f));
-		m_Collider->SetOffsetPos(Vec2(0.f, -32.f));
+		m_Collider->SetScale(Vec2(50.f, 64.f));
+		m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
+		CLevelMgr::GetInst()->setmTime(1.5f);
 	}
 	else {
 		dead();
@@ -254,6 +249,7 @@ void CMario::dead()
 {
 	m_Animator->Play(L"MINI_Dead", true);
 	m_Movement->SetVelocity(Vec2(0.f, -1200.f));
+	CLevelMgr::GetInst()->setmTime(5.f);
 }
 
 

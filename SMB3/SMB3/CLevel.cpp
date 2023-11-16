@@ -6,6 +6,7 @@
 #include "CLayer.h"
 #include "CObj.h"
 #include "CTile.h"
+#include "CLevelMgr.h"
 
 CLevel::CLevel()
 	: m_TileRow(0)
@@ -44,7 +45,10 @@ void CLevel::tick()
 
 	for (UINT i = 0; i < LAYER::END; ++i)
 	{
-		m_Layer[i]->tick(DT);
+		if (CLevelMgr::GetInst()->getmTime() <= 0.f)
+			m_Layer[i]->tick(DT);
+		else if(CLevelMgr::GetInst()->getmTime() > 0.f && i == LAYER::PLAYER)
+			m_Layer[i]->tick(DT);
 	}
 
 	for (UINT i = 0; i < LAYER::END; ++i)

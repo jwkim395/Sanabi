@@ -25,7 +25,8 @@ void CPlayLevel::init()
 	CCollisionMgr::GetInst()->CheckCollision(MONSTER, PLAYER);
 	CCollisionMgr::GetInst()->CheckCollision(MONSTER, PLATFORM);
 	CCollisionMgr::GetInst()->CheckCollision(PLAYER, PLATFORM);
-	
+	CCollisionMgr::GetInst()->CheckCollision(ITEM, PLAYER);
+	CCollisionMgr::GetInst()->CheckCollision(ITEM, PLATFORM);
 }
 
 void CPlayLevel::enter()
@@ -60,6 +61,20 @@ void CPlayLevel::exit()
 
 void CPlayLevel::tick()
 {
+	if (CLevelMgr::GetInst()->getmTime() > 0.f) {
+		CCollisionMgr::GetInst()->UncheckCollision(MONSTER, PLAYER);
+		CCollisionMgr::GetInst()->UncheckCollision(MONSTER, PLATFORM);
+		CCollisionMgr::GetInst()->UncheckCollision(PLAYER, PLATFORM);
+		CCollisionMgr::GetInst()->UncheckCollision(ITEM, PLAYER);
+		CCollisionMgr::GetInst()->UncheckCollision(ITEM, PLATFORM);
+	}
+	else {
+		CCollisionMgr::GetInst()->CheckCollision(MONSTER, PLAYER);
+		CCollisionMgr::GetInst()->CheckCollision(MONSTER, PLATFORM);
+		CCollisionMgr::GetInst()->CheckCollision(PLAYER, PLATFORM);
+		CCollisionMgr::GetInst()->CheckCollision(ITEM, PLAYER);
+		CCollisionMgr::GetInst()->CheckCollision(ITEM, PLATFORM);
+	}
 	CLevel::tick();
 
 	// Enter 키가 눌리면 StartLevel 로 변환
@@ -77,17 +92,25 @@ void CPlayLevel::setObj(CTile* _tile)
 	// 해당 함수에서 불러올 수 있도록 조정중
 	else if (_tile->GetImgIdx() == 1) {
 		// 코인 나오는 박스 추가
-		CBonusBox* cBox = new CBonusBox(1);
+		CBonusBox* cBox = new CBonusBox();
 		cBox->SetPos(_tile->GetPos());
 		cBox->SetScale(Vec2(64.f, 64.f));
-		AddObject(ITEM, cBox);
+		AddObject(PLATFORM, cBox);
+		CItem* nCoin = new CItem(1);
+		nCoin->SetPos(_tile->GetPos());
+		nCoin->SetScale(Vec2(65.f, 65.f));
+		AddObject(ITEM, nCoin);
 	}
 	else if (_tile->GetImgIdx() == 2) {
 		// 파워업 아이템 나오는 박스 추가
-		CBonusBox* cBox = new CBonusBox(2);
+		CBonusBox* cBox = new CBonusBox();
 		cBox->SetPos(_tile->GetPos());
 		cBox->SetScale(Vec2(64.f, 64.f));
-		AddObject(ITEM, cBox);
+		AddObject(PLATFORM, cBox);
+		CItem* nCoin = new CItem(2);
+		nCoin->SetPos(_tile->GetPos());
+		nCoin->SetScale(Vec2(65.f, 65.f));
+		AddObject(ITEM, nCoin);
 	}
 	else if (_tile->GetImgIdx() == 3) {
 		// 코인 추가
