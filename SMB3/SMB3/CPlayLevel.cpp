@@ -77,16 +77,24 @@ void CPlayLevel::setObj(CTile* _tile)
 	// 해당 함수에서 불러올 수 있도록 조정중
 	else if (_tile->GetImgIdx() == 1) {
 		// 코인 나오는 박스 추가
-		CBonusBox* cBox = new CBonusBox;
+		CBonusBox* cBox = new CBonusBox(1);
 		cBox->SetPos(_tile->GetPos());
 		cBox->SetScale(Vec2(64.f, 64.f));
 		AddObject(ITEM, cBox);
 	}
 	else if (_tile->GetImgIdx() == 2) {
 		// 파워업 아이템 나오는 박스 추가
+		CBonusBox* cBox = new CBonusBox(2);
+		cBox->SetPos(_tile->GetPos());
+		cBox->SetScale(Vec2(64.f, 64.f));
+		AddObject(ITEM, cBox);
 	}
 	else if (_tile->GetImgIdx() == 3) {
 		// 코인 추가
+		CItem* nCoin = new CItem(3);
+		nCoin->SetPos(_tile->GetPos());
+		nCoin->SetScale(Vec2(64.f, 64.f));
+		AddObject(ITEM, nCoin);
 
 	}
 	else if (_tile->GetImgIdx() == 4 || (_tile->GetImgIdx() >= 6 && _tile->GetImgIdx() <= 11)) {
