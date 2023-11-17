@@ -44,6 +44,9 @@ void CTile::Save(FILE* _pFile)
 	Vec2 vPos = GetPos();
 	fwrite(&vPos, sizeof(Vec2), 1, _pFile);
 
+	Vec2 vScale = GetScale();
+	fwrite(&vScale, sizeof(Vec2), 1, _pFile);
+
 	bool bAtlas = m_Atlas;
 	fwrite(&bAtlas, sizeof(bool), 1, _pFile);
 
@@ -64,6 +67,10 @@ void CTile::Load(FILE* _pFile)
 	Vec2 vPos;
 	fread(&vPos, sizeof(Vec2), 1, _pFile);
 	SetPos(vPos);
+
+	Vec2 vScale;
+	fread(&vScale, sizeof(Vec2), 1, _pFile);
+	SetScale(vScale);
 
 	bool bAtlas = false;
 	fread(&bAtlas, sizeof(bool), 1, _pFile);

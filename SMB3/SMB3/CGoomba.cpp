@@ -30,7 +30,7 @@ void CGoomba::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Othe
 		SetDead();
 		deadTime -= DT;
 	}
-	else if (dynamic_cast<CPlatform*>(_OtherObj)) {
+	if (dynamic_cast<CPlatform*>(_OtherObj)) {
 		if(GetPos().y > _OtherObj->GetPos().y - _OtherObj->GetScale().y / 2 &&
 			GetPos().y < _OtherObj->GetPos().y + _OtherObj->GetScale().y / 2)
 			velo *= -1.f;
@@ -41,7 +41,7 @@ CGoomba::CGoomba():CMonster(), velo(-50000.f), deadTime(1.f)
 {
 	m_Collider = AddComponent<CCollider>(L"GoombaCollider");
 	m_Collider->SetScale(Vec2(64.f, 64.f));
-	m_Collider->SetOffsetPos(Vec2(0.f, -32.f));
+	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
 	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"MonsterAtlas", L"texture\\119432.png");
 	m_Animator = AddComponent<CAnimator>(L"GoombaAnimator");
 	m_Animator->LoadAnimation(L"animdata\\GOOMBA_IDLE.txt");

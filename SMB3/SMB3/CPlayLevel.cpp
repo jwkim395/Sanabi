@@ -31,7 +31,6 @@ void CPlayLevel::init()
 
 void CPlayLevel::enter()
 {	
-	
 	CCamera::GetInst()->FadeOut(0.3f);
 	if (CLevelMgr::GetInst()->getMapData() == nullptr) {
 		// 미리 저장해놓은 맵 로딩
@@ -59,6 +58,7 @@ void CPlayLevel::exit()
 void CPlayLevel::tick()
 {
 	if (CLevelMgr::GetInst()->getmTime() <= 0.f && CLevelMgr::GetInst()->getMarioStatus() == 3) {
+		DeleteAllObjects();
 		enter();
 	}
 	if (CLevelMgr::GetInst()->getmTime() <= 0.f && CLevelMgr::GetInst()->getMarioStatus() == 4) {

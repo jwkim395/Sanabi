@@ -14,7 +14,6 @@ protected:
 public:
     virtual void tick(float _DT) override;
     virtual void render(HDC _dc) override;
-    void SetScale(Vec2 v1) { m_Collider->SetScale(v1); };
     virtual void Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
     virtual void BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
 

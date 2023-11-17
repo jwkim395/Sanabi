@@ -104,6 +104,8 @@ void CEditorLevel::enter()
 	pPanelUI->AddChildUI(mPanelUI);
 
 	AddObject(LAYER::UI, pPanelUI);
+	isMarioSetted = false;
+	isEndSetted = false;
 
 	
 	/*pPanelUI = pPanelUI->Clone();
