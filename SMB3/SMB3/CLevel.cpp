@@ -42,18 +42,27 @@ void CLevel::tick()
 		m_Layer[i]->clear();
 	}
 
-
-	for (UINT i = 0; i < LAYER::END; ++i)
-	{
-		if (CLevelMgr::GetInst()->getmTime() <= 0.f)
+	if (CLevelMgr::GetInst()->getmTime() <= 0.f) {
+		for (UINT i = 0; i < LAYER::END; ++i)
+		{
 			m_Layer[i]->tick(DT);
-		else if(CLevelMgr::GetInst()->getmTime() > 0.f && i == LAYER::PLAYER)
-			m_Layer[i]->tick(DT);
+		}
 	}
-
-	for (UINT i = 0; i < LAYER::END; ++i)
-	{
-		m_Layer[i]->finaltick(DT);
+	else {
+		m_Layer[PLAYER]->tick(DT);
+	}
+	if (CLevelMgr::GetInst()->getmTime() <= 0.f) {
+		for (UINT i = 0; i < LAYER::END; ++i)
+		{
+			m_Layer[i]->finaltick(DT);
+		}
+	}
+	else {
+		for (UINT i = 0; i < LAYER::END; ++i)
+		{
+			if(i != MONSTER)
+				m_Layer[i]->finaltick(DT);
+		}
 	}
 }
 

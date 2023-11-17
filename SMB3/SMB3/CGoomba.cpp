@@ -25,19 +25,39 @@ void CGoomba::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Othe
 {
 	// 위에서 밟았으면
 	if (dynamic_cast<CMario*>(_OtherObj)) {
-		m_Movement->SetVelocity(Vec2(0.f, 0.f));
-		m_Animator->Play(L"GOOMBA_Dead", true);
-		SetDead();
-		deadTime -= DT;
+		float monTop = (_OwnCol->GetPos().y - _OwnCol->GetScale().y / 2.f);
+		float playerprevbottom = (_OtherCol->GetPrevPos().y + _OtherCol->GetScale().y / 2.f);
+
+		if (monTop >= playerprevbottom * 0.98f)
+		{
+			m_Movement->SetVelocity(Vec2(0.f, 0.f));
+			m_Animator->Play(L"GOOMBA_Dead", true);
+			m_Collider->SetScale(Vec2(0.f, 64.f));
+			deadTime -= DT;
+		}
 	}
 	if (dynamic_cast<CPlatform*>(_OtherObj)) {
 		if(GetPos().y > _OtherObj->GetPos().y - _OtherObj->GetScale().y / 2 &&
 			GetPos().y < _OtherObj->GetPos().y + _OtherObj->GetScale().y / 2)
 			velo *= -1.f;
+		float plattop = (_OtherCol->GetPos().y - _OtherCol->GetScale().y / 2.f);
+		float prevbottom = (_OwnCol->GetPrevPos().y + _OwnCol->GetScale().y / 2.f);
+		if (plattop >= prevbottom * 0.98f)
+			m_Movement->SetGround(true);
+		onBlock += 1;
 	}
 }
 
-CGoomba::CGoomba():CMonster(), velo(-50000.f), deadTime(1.f)
+void CGoomba::EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
+{
+	if (dynamic_cast<CPlatform*>(_OtherObj)) {
+		onBlock -= 1;
+		if (onBlock == 0)
+			m_Movement->SetGround(false);
+	}
+}
+
+CGoomba::CGoomba():CMonster(), velo(-50000.f), deadTime(1.f), onBlock(0)
 {
 	m_Collider = AddComponent<CCollider>(L"GoombaCollider");
 	m_Collider->SetScale(Vec2(64.f, 64.f));

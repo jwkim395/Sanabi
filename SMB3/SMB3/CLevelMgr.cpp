@@ -65,13 +65,27 @@ void CLevelMgr::tick()
 
 void CLevelMgr::render(HDC _dc)
 {
+
 	if (nullptr == m_pCurLevel)
 		return;
 
 	// Level Render
 	// 화면 Clear
 	POINT ptResolution = CEngine::GetInst()->GetResolution();
-	Rectangle(_dc, -1, -1, ptResolution.x + 1, ptResolution.y + 1);
+	
+	if (dynamic_cast<CPlayLevel*>(m_pCurLevel)) {
+		RECT rect = { 0 };
+		HBRUSH brush = (HBRUSH)::GetStockObject(DC_BRUSH);
+		COLORREF holdPreviousBrushColor = SetDCBrushColor(_dc, RGB(147, 252, 238));
+		SetRect(&rect, -1, -1, ptResolution.x + 1, ptResolution.y + 1);
+		FillRect(_dc, &rect, brush);
+		SetDCBrushColor(_dc, holdPreviousBrushColor);
+	}
+	else {
+		Rectangle(_dc, -1, -1, ptResolution.x + 1, ptResolution.y + 1);
+	}
+
+	
 
 	// editor level일 경우 64 * 64 격자 생성
 	if (dynamic_cast<CEditorLevel*>(m_pCurLevel)) {

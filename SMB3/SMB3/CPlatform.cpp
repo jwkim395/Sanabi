@@ -138,9 +138,7 @@ void CPlatform::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCo
 
 void CPlatform::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 {
-    if ((UINT)LAYER::PLAYER == _OtherObj->GetLayerIdx() ||
-        (UINT)LAYER::MONSTER == _OtherObj->GetLayerIdx() || 
-        (UINT)LAYER::ITEM == _OtherObj->GetLayerIdx())
+    if ((UINT)LAYER::PLAYER == _OtherObj->GetLayerIdx())
     {
         float plattop = (_OwnCol->GetPos().y - _OwnCol->GetScale().y / 2.f);
         float otherprevbottom = (_OtherCol->GetPrevPos().y + _OtherCol->GetScale().y / 2.f);
@@ -166,7 +164,7 @@ void CPlatform::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Ot
                 mov->SetVelocity(Vec2(v.x, 0.f));
             }
         }
-        else if(platRight > otherLeft || platLeft < otherRight){
+        else if(GetPos().y > platBottom + 1.f && GetPos().y < plattop + 1.f && (platRight > otherLeft || platLeft < otherRight)){
             CMovement* mov = _OtherObj->GetMovement();
 
             if (nullptr != mov)

@@ -80,12 +80,12 @@ void CMario::tick(float _DT)
 		Super::tick(_DT);
 		Vec2 vPos = GetPos();
 
-		if (KEY_TAP(DOWN) && status > 1) {
+		if (KEY_TAP(DOWN) && status >= 1) {
 			m_Animator->Play(L"SUPER_Sit", true);
 			m_Collider->SetScale(Vec2(64.f, 64.f));
 			SetPos(Vec2(GetPos().x, GetPos().y + 32.f));
 		}
-		else if (KEY_RELEASED(DOWN) && status > 1) {
+		else if (KEY_RELEASED(DOWN) && status >= 1) {
 			m_Animator->Play(L"SUPER_IDLE", true);
 			m_Collider->SetScale(Vec2(64.f, 128.f));
 		}
@@ -183,22 +183,19 @@ void CMario::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Other
 	{
 		float plattop = (_OtherCol->GetPos().y - _OtherCol->GetScale().y / 2.f);
 		float prevbottom = (_OwnCol->GetPrevPos().y + _OwnCol->GetScale().y / 2.f);
-		if (plattop >= prevbottom * 0.98f)
+		if (plattop >= prevbottom * 0.99f)
 			m_Movement->SetGround(true);
 		onBlock += 1;
 	}
-	if (dynamic_cast<CMonster*>(_OtherObj) && !_OtherObj->IsDead())
+	if (dynamic_cast<CMonster*>(_OtherObj))
 	{
-		// 콜라이터 양쪽 x좌표 둘중 하나가 플랫폼 x좌표 범위안 + y좌표가
-		if ((((m_Collider->GetPos().x - m_Collider->GetScale().x / 2.f > _OtherObj->GetPos().x - _OtherObj->GetScale().x / 2.f + 1.f)
-			&& (m_Collider->GetPos().x - m_Collider->GetScale().x / 2.f < _OtherObj->GetPos().x + _OtherObj->GetScale().x / 2.f) -1.f)
-			|| ((m_Collider->GetPos().x + (m_Collider->GetScale().x / 2.f) > _OtherObj->GetPos().x - (_OtherObj->GetScale().x / 2.f) + 1.f)
-			&& (m_Collider->GetPos().x + (m_Collider->GetScale().x / 2.f) < _OtherObj->GetPos().x + (_OtherObj->GetScale().x / 2.f) -1.f)))
-			&& abs(m_Collider->GetPos().y + m_Collider->GetScale().y/2 - (_OtherCol->GetPos().y - _OtherCol->GetScale().y/2)) < abs(m_Collider->GetPos().y + m_Collider->GetScale().y/2 - (_OtherCol->GetPos().y - (_OtherCol->GetScale().y / 2)/0.9)))
+		float monTop = (_OtherCol->GetPos().y - _OtherCol->GetScale().y / 2.f);
+		float playerprevbottom = (_OwnCol->GetPrevPos().y + _OwnCol->GetScale().y / 2.f);
+
+		if (monTop >= playerprevbottom * 0.98f)
 			m_Movement->SetVelocity(Vec2(m_Movement->GetVelocity().x, -1200.f));
-		else{
+		else
 			powerDown();
-		}
 		
 	}
 	if ((UINT)LAYER::ITEM == _OtherObj->GetLayerIdx()) {
@@ -225,9 +222,9 @@ void CMario::powerUp()
 		status = 1;
 		m_Animator->Play(L"MINI_TO_SUPER", true);
 		SetPos(Vec2(GetPos().x, GetPos().y - 32.f));
-		SetScale(Vec2(64.f, 128.f));
+		SetScale(Vec2(64.f, 120.f));
 		m_Collider->SetScale(Vec2(64.f, 128.f));
-		CLevelMgr::GetInst()->setmTime(1.5f);
+		CLevelMgr::GetInst()->setmTime(1.8f);
 	}
 }
 
@@ -239,10 +236,11 @@ void CMario::powerDown()
 		
 	}
 	else if (status == 1) {
-		// 작아지는 애니메이션
+		m_Animator->Play(L"MINI_TO_SUPER", true);
+		SetPos(Vec2(GetPos().x, GetPos().y + 32.f));
+		SetScale(Vec2(64.f, 64.f));
 		m_Collider->SetScale(Vec2(50.f, 64.f));
-		m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
-		CLevelMgr::GetInst()->setmTime(1.5f);
+		CLevelMgr::GetInst()->setmTime(1.8f);
 	}
 	else {
 		dead();
