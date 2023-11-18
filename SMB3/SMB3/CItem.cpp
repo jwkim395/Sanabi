@@ -42,17 +42,15 @@ void CItem::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherC
 			}
 		}
 	}
-	if ((UINT)LAYER::PLATFORM == _OtherObj->GetLayerIdx() && isMoving) {
-		float platRight = (_OwnCol->GetPos().x + _OwnCol->GetScale().x / 2.f);
-		float otherRight = (_OtherCol->GetPos().x + _OtherCol->GetScale().x / 2.f);
-		float platLeft = (_OwnCol->GetPos().x - _OwnCol->GetScale().y / 2.f);
-		float otherLeft = (_OtherCol->GetPos().x - _OtherCol->GetScale().x / 2.f);
-
+	if (dynamic_cast<CPlatform*>(_OtherObj)) {
 		if (GetPos().y > _OtherObj->GetPos().y - _OtherObj->GetScale().y / 2 &&
-			GetPos().y < _OtherObj->GetPos().y + _OtherObj->GetScale().y / 2 &&
-			(platRight > otherLeft || platLeft < otherRight)) {
-			velo *= -1;
-		}
+			GetPos().y < _OtherObj->GetPos().y + _OtherObj->GetScale().y / 2)
+			velo *= -1.f;
+		float plattop = (_OtherCol->GetPos().y - _OtherCol->GetScale().y / 2.f);
+		float prevbottom = (_OwnCol->GetPrevPos().y + _OwnCol->GetScale().y / 2.f);
+		if (plattop >= prevbottom * 0.98f)
+			m_Movement->SetGround(true);
+		onBlock += 1;
 	}
 
 }
@@ -63,13 +61,18 @@ void CItem::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 
 void CItem::EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 {
+	if (dynamic_cast<CPlatform*>(_OtherObj)) {
+		onBlock -= 1;
+		if (onBlock == 0)
+			m_Movement->SetGround(false);
+	}
 }
 
-CItem::CItem(int idx):CPlatform(), velo(-50000.f)
+CItem::CItem(int idx):CPlatform(), velo(-50000.f), onBlock(0)
 {
 	m_Collider = AddComponent<CCollider>(L"ItemCollider");
-	m_Collider->SetScale(Vec2(64.f, 64.f));
-	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
+	m_Collider->SetScale(Vec2(50.f, 62.f));
+	m_Collider->SetOffsetPos(Vec2(0.f, 2.f));
 	setIsMoving(false);
 	if (idx == 2) { // 2, 3
 		itemNum = 2;

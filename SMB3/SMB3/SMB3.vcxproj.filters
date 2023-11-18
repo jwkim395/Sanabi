@@ -91,6 +91,9 @@
     <Filter Include="Game\05. Object\Platform\Item">
       <UniqueIdentifier>{9c2c4dd9-9589-4420-a525-46a37379ebee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\05. Object\BackGround">
+      <UniqueIdentifier>{63443c45-c5b0-4721-a312-bed92840e879}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -261,6 +264,9 @@
     <ClInclude Include="CItem.h">
       <Filter>Game\05. Object\Platform\Item</Filter>
     </ClInclude>
+    <ClInclude Include="CBackGround.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -409,6 +415,9 @@
     </ClCompile>
     <ClCompile Include="CItem.cpp">
       <Filter>Game\05. Object\Platform\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackGround.cpp">
+      <Filter>Default</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

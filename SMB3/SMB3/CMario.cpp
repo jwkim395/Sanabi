@@ -91,6 +91,12 @@ void CMario::tick(float _DT)
 		}
 		else if (KEY_PRESSED(KEY::LSHIFT))
 		{
+			if (m_Animator->m_CurAnim->GetName() != L"MINI_Run_L") {
+				m_Animator->Play(L"MINI_Run_L", true);
+			}
+			if (m_Animator->m_CurAnim->GetName() != L"MINI_Run") {
+				m_Animator->Play(L"MINI_Run", true);
+			}
 			if (KEY_TAP(LEFT)) {
 				watchDir = false;
 				m_Animator->Play(L"MINI_Run_L", true);
@@ -114,6 +120,9 @@ void CMario::tick(float _DT)
 			m_Animator->Play(L"MINI_Walk_L", true);
 		}
 		else if (KEY_PRESSED(LEFT)) {
+			if (m_Animator->m_CurAnim->GetName() != L"MINI_Walk_L") {
+				m_Animator->Play(L"MINI_Walk_L", true);
+			}
 			m_Movement->AddForce(Vec2(-800.f, 0.f));
 		}
 		else if (KEY_TAP(RIGHT))
@@ -122,9 +131,11 @@ void CMario::tick(float _DT)
 			m_Animator->Play(L"MINI_Walk", true);
 		}
 		else if (KEY_PRESSED(RIGHT)) {
+			if (m_Animator->m_CurAnim->GetName() != L"MINI_Walk") {
+				m_Animator->Play(L"MINI_Walk", true);
+			}
 			m_Movement->AddForce(Vec2(800.f, 0.f));
 		}
-		SetPos(Vec2(GetPos().x, GetPos().y - 32.f));
 		if (KEY_RELEASED(KEY::LSHIFT))
 		{
 			m_Movement->SetMaxSpeed(192.f);

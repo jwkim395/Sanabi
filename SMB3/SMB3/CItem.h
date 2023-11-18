@@ -9,6 +9,7 @@ private:
     bool isMoving;
     float overing;
     float velo;
+    int onBlock;
 public:
     int getItemNum() { return itemNum; }
     bool getIsMoving() { return isMoving; }

@@ -2,12 +2,11 @@
 #include "CObj.h"
 #include "CAssetMgr.h"
 
-class CPlatform :
+class CBackGround :
     public CObj
 {
     GENERATED_OBJECT(CObj);
 protected:
-    class CCollider* m_Collider;
     FFrame imagePos;
     class CTexture* m_Image;
 
@@ -18,14 +17,11 @@ public:
 public:
     virtual void tick(float _DT) override;
     virtual void render(HDC _dc) override;
-    virtual void Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
-    virtual void BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
-
 
 public:
-    CLONE(CPlatform);
-    CPlatform();
-    CPlatform(const CPlatform& _Origin);
-    ~CPlatform();
+    CLONE(CBackGround);
+    CBackGround();
+    CBackGround(const CBackGround& _Origin);
+    ~CBackGround();
 };
 

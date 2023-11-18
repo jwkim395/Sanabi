@@ -144,6 +144,7 @@
     <ClInclude Include="CAnimator.h" />
     <ClInclude Include="CAsset.h" />
     <ClInclude Include="CAssetMgr.h" />
+    <ClInclude Include="CBackGround.h" />
     <ClInclude Include="CBonusBox.h" />
     <ClInclude Include="CBreakableBlock.h" />
     <ClInclude Include="CBtnUI.h" />
@@ -202,6 +203,7 @@
     <ClCompile Include="CAnimator.cpp" />
     <ClCompile Include="CAsset.cpp" />
     <ClCompile Include="CAssetMgr.cpp" />
+    <ClCompile Include="CBackGround.cpp" />
     <ClCompile Include="CBonusBox.cpp" />
     <ClCompile Include="CBreakableBlock.cpp" />
     <ClCompile Include="CBtnUI.cpp" />

@@ -16,6 +16,7 @@
 #include "CSound.h"
 #include "CPathMgr.h"
 #include "CGoomba.h"
+#include "CBackGround.h"
 
 #include "platforms.h"
 
@@ -154,6 +155,27 @@ void CPlayLevel::setObj(CTile* _tile)
 		endTile->SetPos(_tile->GetPos());
 		endTile->SetScale(Vec2(64.f, 64.f));
 		AddObject(PLATFORM, endTile);
+		
+		
+		// 검은 배경
+		CBackGround* mainEndBackGround = new CBackGround;
+		mainEndBackGround->SetPos(Vec2(_tile->GetPos().x, _tile->GetPos().y - 50.f));
+		mainEndBackGround->SetScale(Vec2(200.f, 256.f));
+		mainEndBackGround->setImagePos(Vec2(1.f, 3684.f), Vec2(200.f, 256.f));
+		mainEndBackGround->setTexture(L"BackAltas", L"texture\\back.png");
+		AddObject(BACKGROUND, mainEndBackGround);
+		// 외각 삼각형
+		CBackGround* endBackGround;
+		for (float i = 64.f * 2; i <= 256.f * 4; i += 64.f * 4) {
+			endBackGround = new CBackGround;
+			endBackGround->SetPos(Vec2(_tile->GetPos().x - mainEndBackGround->GetScale().x / 2 - 64.f * 2
+				, mainEndBackGround->GetPos().y - mainEndBackGround->GetScale().y / 2 + i));
+			endBackGround->SetScale(Vec2(64.f*4, 64.f*4));
+			endBackGround->setImagePos(Vec2(130.f, 879.f), Vec2(64.f, 64.f));
+			endBackGround->setTexture(L"TileAltas", L"texture\\69718.png");
+			AddObject(BACKGROUND, endBackGround);
+		}
+		
 	}
 	else if (_tile->GetImgIdx() >= 26) {
 		// 굼바 추가
