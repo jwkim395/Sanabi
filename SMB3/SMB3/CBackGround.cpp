@@ -13,9 +13,9 @@ void CBackGround::render(HDC _dc)
 	if (m_Image != nullptr) {
 		Vec2 vRenderPos = GetRenderPos();
 
-		TransparentBlt(_dc, int(vRenderPos.x - (imagePos.vCutSize.x * 2.f) + imagePos.vOffset.x)
-			, int(vRenderPos.y - (imagePos.vCutSize.y * 2.f) + imagePos.vOffset.y)
-			, int(imagePos.vCutSize.x) * 4, int(imagePos.vCutSize.y) * 4
+		TransparentBlt(_dc, int(vRenderPos.x - (imagePos.vCutSize.x) + imagePos.vOffset.x)
+			, int(vRenderPos.y - (imagePos.vCutSize.y) + imagePos.vOffset.y)
+			, int(imagePos.vCutSize.x)*2, int(imagePos.vCutSize.y)*2
 			, m_Image->GetDC()
 			, int(imagePos.vLeftTop.x), int(imagePos.vLeftTop.y)
 			, int(imagePos.vCutSize.x), int(imagePos.vCutSize.y)

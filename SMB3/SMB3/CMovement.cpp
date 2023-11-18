@@ -3,6 +3,7 @@
 #include "CMovement.h"
 #include "CLogMgr.h"
 #include "CObj.h"
+#include "CLevelMgr.h"
 
 CMovement::CMovement(CObj* _Owner)
 	: CComponent(_Owner)
@@ -23,6 +24,10 @@ CMovement::~CMovement()
 
 void CMovement::finaltick(float _DT)
 {
+	if (CLevelMgr::GetInst()->getMarioStatus() == 2) {
+		m_Force = Vec2(0.f, 0.f);
+		return;
+	}
 	m_Accel = m_Force / m_Mass;
 
 	// 중력옵션 사용하는 경우
@@ -38,7 +43,7 @@ void CMovement::finaltick(float _DT)
 		{
 			Vec2 vAccelDir = m_Accel;
 			vAccelDir.Normalize();
-			m_Velocity = vAccelDir;
+			m_Velocity = vAccelDir * m_InitSpeed;
 		}
 	}
 	else
@@ -53,6 +58,8 @@ void CMovement::finaltick(float _DT)
 	}
 
 	// 물체에 적용되고있는 힘이 없거나 반대면 마찰력을 적용시킨다.
+
+
 	if (m_Ground && m_Velocity.x != 0.f)
 	{
 		float fFriction = -m_Velocity.x;

@@ -37,22 +37,9 @@ void CMonster::begin()
 
 void CMonster::tick(float _DT)
 {
-	Vec2 temp = GetPos();
 	Super::tick(_DT);
-	prevPos = temp;
-
-
 }
 
 void CMonster::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 {
-	/*if (dynamic_cast<CProjectile*>(_OtherObj))
-	{
-		m_Info.HP -= 1.f;
-
-		if (m_Info.HP <= 0.f)
-		{
-			Destroy();
-		}
-	}*/
 }

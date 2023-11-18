@@ -47,22 +47,14 @@ void CLevel::tick()
 		{
 			m_Layer[i]->tick(DT);
 		}
-	}
-	else {
-		m_Layer[PLAYER]->tick(DT);
-	}
-	if (CLevelMgr::GetInst()->getmTime() <= 0.f) {
+
 		for (UINT i = 0; i < LAYER::END; ++i)
 		{
 			m_Layer[i]->finaltick(DT);
 		}
 	}
 	else {
-		for (UINT i = 0; i < LAYER::END; ++i)
-		{
-			if(i != MONSTER)
-				m_Layer[i]->finaltick(DT);
-		}
+		m_Layer[PLAYER]->tick(DT);
 	}
 }
 
