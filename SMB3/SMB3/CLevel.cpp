@@ -55,6 +55,7 @@ void CLevel::tick()
 	}
 	else {
 		m_Layer[PLAYER]->tick(DT);
+		m_Layer[PLAYER]->finaltick(DT);
 	}
 }
 

@@ -61,6 +61,9 @@ void CLevelMgr::tick()
 	if (mTime > 0.f) {
 		mTime -= DT;
 	}
+	else {
+		setMarioStatus(1);
+	}
 }
 
 void CLevelMgr::render(HDC _dc)

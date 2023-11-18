@@ -45,15 +45,28 @@ CMario::CMario()
 	m_Animator->LoadAnimation(L"animdata\\MINI_Dead.txt");
 	m_Animator->LoadAnimation(L"animdata\\MINI_Jump.txt");
 	m_Animator->LoadAnimation(L"animdata\\MINI_Run.txt");
-	m_Animator->LoadAnimation(L"animdata\\MINI_Turn.txt");
 	m_Animator->LoadAnimation(L"animdata\\MINI_Walk.txt");
 	m_Animator->LoadAnimation(L"animdata\\MINI_TO_SUPER.txt");
 	
 	m_Animator->LoadAnimation(L"animdata\\MINI_IDLE_L.txt");
 	m_Animator->LoadAnimation(L"animdata\\MINI_Jump_L.txt");
 	m_Animator->LoadAnimation(L"animdata\\MINI_Run_L.txt");
+	m_Animator->LoadAnimation(L"animdata\\MINI_Walk_L.txt");
+
+	m_Animator->LoadAnimation(L"animdata\\SUPER_IDLE.txt");
+	m_Animator->LoadAnimation(L"animdata\\SUPER_Sit.txt");
+	m_Animator->LoadAnimation(L"animdata\\SUPER_Jump.txt");
+	m_Animator->LoadAnimation(L"animdata\\SUPER_Run.txt");
+	m_Animator->LoadAnimation(L"animdata\\SUPER_Walk.txt");
+
+	/*
+	m_Animator->LoadAnimation(L"animdata\\MINI_IDLE_L.txt");
+	m_Animator->LoadAnimation(L"animdata\\MINI_Jump_L.txt");
+	m_Animator->LoadAnimation(L"animdata\\MINI_Run_L.txt");
 	m_Animator->LoadAnimation(L"animdata\\MINI_Turn_L.txt");
 	m_Animator->LoadAnimation(L"animdata\\MINI_Walk_L.txt");
+	*/
+
 	m_Animator->Play(L"MINI_IDLE", true);
 
 
@@ -77,10 +90,19 @@ void CMario::tick(float _DT)
 {
 	if (CLevelMgr::GetInst()->getmTime() <= 0) {
 		Super::tick(_DT);
+		if (KEY_TAP(LEFT)) {
+			watchDir = false;
+		}
+		if (KEY_TAP(RIGHT)) {
+			watchDir = true;
+		}
 		if (KEY_TAP(DOWN) && status >= 1) {
 			m_Animator->Play(L"SUPER_Sit", true);
 			m_Collider->SetScale(Vec2(64.f, 72.f));
 			SetPos(Vec2(GetPos().x, GetPos().y + 18.f));
+		}
+		else if (KEY_PRESSED(DOWN) && status >= 1) {
+			m_Animator->Play(L"SUPER_Sit", true);
 		}
 		else if (KEY_RELEASED(DOWN) && status >= 1) {
 			m_Animator->Play(L"SUPER_IDLE", true);
@@ -107,7 +129,7 @@ void CMario::tick(float _DT)
 				if (status == 0 && m_Animator->m_CurAnim->GetName() != L"MINI_Run_L") {
 					m_Animator->Play(L"MINI_Run_L", true);
 				}
-				else if(status == 0 && m_Animator->m_CurAnim->GetName() != L"SUPER_Run_L")
+				else if(status == 1 && m_Animator->m_CurAnim->GetName() != L"SUPER_Run_L")
 					m_Animator->Play(L"SUPER_IDLE", true);
 				m_Movement->SetMaxSpeed(350.f);
 				m_Movement->AddForce(Vec2(-800.f, 0.f));
@@ -116,7 +138,7 @@ void CMario::tick(float _DT)
 				if (status == 0 && m_Animator->m_CurAnim->GetName() != L"MINI_Run") {
 					m_Animator->Play(L"MINI_Run", true);
 				}
-				else if (status == 0 && m_Animator->m_CurAnim->GetName() != L"SUPER_Run_L")
+				else if (status == 1 && m_Animator->m_CurAnim->GetName() != L"SUPER_Run")
 					m_Animator->Play(L"SUPER_IDLE", true);
 				m_Movement->SetMaxSpeed(350.f);
 				m_Movement->AddForce(Vec2(800.f, 0.f));
@@ -134,7 +156,7 @@ void CMario::tick(float _DT)
 			if (status == 0 && m_Animator->m_CurAnim->GetName() != L"MINI_Walk_L") {
 				m_Animator->Play(L"MINI_Walk_L", true);
 			}
-			else if (status == 0 && m_Animator->m_CurAnim->GetName() != L"SUPER_Run_L")
+			else if (status == 1 && m_Animator->m_CurAnim->GetName() != L"SUPER_Walk_L")
 				m_Animator->Play(L"SUPER_IDLE", true);
 			m_Movement->AddForce(Vec2(-800.f, 0.f));
 		}
@@ -150,48 +172,75 @@ void CMario::tick(float _DT)
 			if (status == 0 && m_Animator->m_CurAnim->GetName() != L"MINI_Walk") {
 				m_Animator->Play(L"MINI_Walk", true);
 			}
+			else if (status == 1 && m_Animator->m_CurAnim->GetName() != L"SUPER_Walk")
+				m_Animator->Play(L"SUPER_IDLE", true);
 			m_Movement->AddForce(Vec2(800.f, 0.f));
 		}
+		else if (KEY_RELEASED(LEFT))
+		{
+			if (status >= 1) {
+				m_Animator->Play(L"SUPER_IDLE", true);
+			}
+			else
+				m_Animator->Play(L"MINI_IDLE_L", true);
+		}
+		else if (KEY_RELEASED(RIGHT))
+		{
+			if (status >= 1) {
+				m_Animator->Play(L"SUPER_IDLE", true);
+			}
+			else
+				m_Animator->Play(L"MINI_IDLE", true);
+		}
+
 		if (KEY_RELEASED(KEY::LSHIFT))
 		{
 			m_Movement->SetMaxSpeed(192.f);
 		}
 
-		if (KEY_RELEASED(LEFT))
-		{
-			if (status >= 1) {
-				m_Animator->Play(L"SUPER_IDLE", true);
-			}
-			m_Animator->Play(L"MINI_IDLE_L", true);
-
-		}
-
-		if (KEY_RELEASED(RIGHT))
-		{
-			m_Animator->Play(L"MINI_IDLE", true);
-
-		}
+		
 
 		if (KEY_TAP(SPACE) && watchDir)
 		{
-			m_Animator->Play(L"MINI_Jump", true);
+			if (status >= 1) {
+				m_Animator->Play(L"SUPER_Jump", true);
+			}
+			else
+				m_Animator->Play(L"MINI_Jump", true);
+
 			if (m_Movement->IsGround()) {
 				m_Movement->SetVelocity(Vec2(m_Movement->GetVelocity().x, -700.f));
 				m_Movement->SetGround(false);
 				jumpedTime = 0.f;
+				onBlock = 0;
 			}
 		}
 		if (KEY_TAP(SPACE) && !watchDir)
 		{
-			m_Animator->Play(L"MINI_Jump_L", true);
+			if (status >= 1) {
+				m_Animator->Play(L"SUPER_Jump", true);
+			}
+			else
+				m_Animator->Play(L"MINI_Jump_L", true);
+
 			if (m_Movement->IsGround()) {
 				m_Movement->SetVelocity(Vec2(m_Movement->GetVelocity().x, -700.f));
 				m_Movement->SetGround(false);
 				jumpedTime = 0.f;
+				onBlock = 0;
 			}
 		}
 		if (KEY_PRESSED(SPACE))
 		{
+			if (status >= 1 && watchDir) 
+				m_Animator->Play(L"SUPER_Jump", true);
+			else if (status >= 1 && !watchDir)
+				m_Animator->Play(L"SUPER_Jump", true);
+			else if (watchDir)
+				m_Animator->Play(L"MINI_Jump", true);
+			else
+				m_Animator->Play(L"MINI_Jump_L", true);
+
 			if (!m_Movement->IsGround() && jumpedTime <= 0.8f) {
 				m_Movement->AddForce(Vec2(0.f, -2800.f * (1 - jumpedTime / 0.8f)));
 				jumpedTime += DT;
@@ -240,7 +289,8 @@ void CMario::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Other
 
 void CMario::EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 {
-	onBlock -= 1;
+	if (onBlock > 0)
+		onBlock -= 1;
 	if (onBlock == 0)
 		m_Movement->SetGround(false);
 }
@@ -253,6 +303,7 @@ void CMario::powerUp()
 		SetPos(Vec2(GetPos().x, GetPos().y - 16.f));
 		SetScale(Vec2(64.f, 112.f));
 		m_Collider->SetScale(Vec2(62.f, 112.f));
+		CLevelMgr::GetInst()->setMarioStatus(2);
 		CLevelMgr::GetInst()->setmTime(1.4f);
 	}
 }
@@ -265,10 +316,12 @@ void CMario::powerDown()
 		
 	}
 	else if (status == 1) {
+		--status;
 		m_Animator->Play(L"MINI_TO_SUPER", true);
 		SetPos(Vec2(GetPos().x, GetPos().y + 16.f));
 		SetScale(Vec2(64.f, 64.f));
 		m_Collider->SetScale(Vec2(50.f, 64.f));
+		CLevelMgr::GetInst()->setMarioStatus(2);
 		CLevelMgr::GetInst()->setmTime(1.4f);
 	}
 	else {
