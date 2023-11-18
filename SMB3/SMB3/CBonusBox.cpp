@@ -13,7 +13,7 @@ void CBonusBox::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Ot
         float otherTop = _OtherCol->GetPrevPos().y - _OtherCol->GetScale().y / 2.f;
 
         //위에서 올라왔으면, y스피드를 0으로 고정
-        if (platBottom >= otherTop)// *yfix)
+        if (platBottom <= otherTop)
             imagePos.vLeftTop = Vec2(86, 1);
         
     }
