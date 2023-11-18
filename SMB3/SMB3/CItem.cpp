@@ -87,8 +87,8 @@ CItem::CItem(int idx):CPlatform(), velo(-50000.f), onBlock(0)
 	overing = 2.f;
 	m_Movement = AddComponent<CMovement>(L"ItemMovement");
 	m_Movement->SetMass(1.f);
-	m_Movement->SetInitSpeed(100.f);
-	m_Movement->SetMaxSpeed(100.f);
+	m_Movement->SetInitSpeed(150.f);
+	m_Movement->SetMaxSpeed(150.f);
 	m_Movement->UseGravity(false);
 	m_Movement->SetGravity(Vec2(0.f, 3000.f));
 	m_Movement->SetGround(true);

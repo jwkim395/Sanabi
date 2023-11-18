@@ -53,6 +53,12 @@ void CLevel::tick()
 			m_Layer[i]->finaltick(DT);
 		}
 	}
+	else if (CLevelMgr::GetInst()->getMarioStatus() == 4) {
+		m_Layer[PLAYER]->tick(DT);
+		m_Layer[PLATFORM]->tick(DT);
+		m_Layer[PLAYER]->finaltick(DT);
+		m_Layer[PLATFORM]->finaltick(DT);
+	}
 	else {
 		m_Layer[PLAYER]->tick(DT);
 		m_Layer[PLAYER]->finaltick(DT);

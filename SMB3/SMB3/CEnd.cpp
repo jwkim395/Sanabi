@@ -11,8 +11,7 @@ void CEnd::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 void CEnd::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 {
 	if (_OtherObj->GetLayerIdx() == PLAYER) {
-		_OtherObj->GetMovement()->SetVelocity(Vec2(0, 0));
-		_OtherObj->GetMovement()->UseGravity(false);
+		_OtherObj->GetMovement()->SetVelocity(Vec2(192.f, 0.f));
 		CLevelMgr::GetInst()->setmTime(4.f);
 		CLevelMgr::GetInst()->setMarioStatus(4);
 	}

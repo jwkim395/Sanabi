@@ -111,6 +111,7 @@ void CMario::tick(float _DT)
 		}
 		else if (KEY_PRESSED(KEY::LSHIFT))
 		{
+			m_Movement->SetMaxSpeed(350.f);
 			if (KEY_TAP(LEFT)) {
 				watchDir = false;
 				if (status >= 1) 
@@ -131,7 +132,6 @@ void CMario::tick(float _DT)
 				}
 				else if(status == 1 && m_Animator->m_CurAnim->GetName() != L"SUPER_Run_L")
 					m_Animator->Play(L"SUPER_IDLE", true);
-				m_Movement->SetMaxSpeed(350.f);
 				m_Movement->AddForce(Vec2(-800.f, 0.f));
 			}
 			else if (KEY_PRESSED(RIGHT)) {
@@ -140,66 +140,62 @@ void CMario::tick(float _DT)
 				}
 				else if (status == 1 && m_Animator->m_CurAnim->GetName() != L"SUPER_Run")
 					m_Animator->Play(L"SUPER_IDLE", true);
-				m_Movement->SetMaxSpeed(350.f);
 				m_Movement->AddForce(Vec2(800.f, 0.f));
 			}
 		}
-		else if (KEY_TAP(LEFT))
-		{
-			watchDir = false;
-			if (status >= 1)
-				m_Animator->Play(L"SUPER_IDLE", true);
-			else
-				m_Animator->Play(L"MINI_Walk_L", true);
-		}
-		else if (KEY_PRESSED(LEFT)) {
-			if (status == 0 && m_Animator->m_CurAnim->GetName() != L"MINI_Walk_L") {
-				m_Animator->Play(L"MINI_Walk_L", true);
-			}
-			else if (status == 1 && m_Animator->m_CurAnim->GetName() != L"SUPER_Walk_L")
-				m_Animator->Play(L"SUPER_IDLE", true);
-			m_Movement->AddForce(Vec2(-800.f, 0.f));
-		}
-		else if (KEY_TAP(RIGHT))
-		{
-			watchDir = true;
-			if (status >= 1)
-				m_Animator->Play(L"SUPER_IDLE", true);
-			else
-				m_Animator->Play(L"MINI_Walk", true);
-		}
-		else if (KEY_PRESSED(RIGHT)) {
-			if (status == 0 && m_Animator->m_CurAnim->GetName() != L"MINI_Walk") {
-				m_Animator->Play(L"MINI_Walk", true);
-			}
-			else if (status == 1 && m_Animator->m_CurAnim->GetName() != L"SUPER_Walk")
-				m_Animator->Play(L"SUPER_IDLE", true);
-			m_Movement->AddForce(Vec2(800.f, 0.f));
-		}
-		else if (KEY_RELEASED(LEFT))
-		{
-			if (status >= 1) {
-				m_Animator->Play(L"SUPER_IDLE", true);
-			}
-			else
-				m_Animator->Play(L"MINI_IDLE_L", true);
-		}
-		else if (KEY_RELEASED(RIGHT))
-		{
-			if (status >= 1) {
-				m_Animator->Play(L"SUPER_IDLE", true);
-			}
-			else
-				m_Animator->Play(L"MINI_IDLE", true);
-		}
-
-		if (KEY_RELEASED(KEY::LSHIFT))
+		if (KEY_NONE(KEY::LSHIFT) || KEY_RELEASED(KEY::LSHIFT))
 		{
 			m_Movement->SetMaxSpeed(192.f);
+
+			if (KEY_TAP(LEFT))
+			{
+				watchDir = false;
+				if (status >= 1)
+					m_Animator->Play(L"SUPER_IDLE", true);
+				else
+					m_Animator->Play(L"MINI_Walk_L", true);
+			}
+			else if (KEY_PRESSED(LEFT)) {
+				if (status == 0 && m_Animator->m_CurAnim->GetName() != L"MINI_Walk_L") {
+					m_Animator->Play(L"MINI_Walk_L", true);
+				}
+				else if (status == 1 && m_Animator->m_CurAnim->GetName() != L"SUPER_Walk_L")
+					m_Animator->Play(L"SUPER_IDLE", true);
+				m_Movement->AddForce(Vec2(-800.f, 0.f));
+			}
+			else if (KEY_TAP(RIGHT))
+			{
+				watchDir = true;
+				if (status >= 1)
+					m_Animator->Play(L"SUPER_IDLE", true);
+				else
+					m_Animator->Play(L"MINI_Walk", true);
+			}
+			else if (KEY_PRESSED(RIGHT)) {
+				if (status == 0 && m_Animator->m_CurAnim->GetName() != L"MINI_Walk") {
+					m_Animator->Play(L"MINI_Walk", true);
+				}
+				else if (status == 1 && m_Animator->m_CurAnim->GetName() != L"SUPER_Walk")
+					m_Animator->Play(L"SUPER_IDLE", true);
+				m_Movement->AddForce(Vec2(800.f, 0.f));
+			}
+			else if (KEY_RELEASED(LEFT))
+			{
+				if (status >= 1) {
+					m_Animator->Play(L"SUPER_IDLE", true);
+				}
+				else
+					m_Animator->Play(L"MINI_IDLE_L", true);
+			}
+			else if (KEY_RELEASED(RIGHT))
+			{
+				if (status >= 1) {
+					m_Animator->Play(L"SUPER_IDLE", true);
+				}
+				else
+					m_Animator->Play(L"MINI_IDLE", true);
+			}
 		}
-
-		
-
 		if (KEY_TAP(SPACE) && watchDir)
 		{
 			if (status >= 1) {
@@ -252,6 +248,15 @@ void CMario::tick(float _DT)
 	}
 	else if (CLevelMgr::GetInst()->getmTime() > 0 && CLevelMgr::GetInst()->getMarioStatus() == 3) {
 		m_Movement->AddForce(Vec2(0.f, 1200.f));
+	}
+	else if (CLevelMgr::GetInst()->getMarioStatus() == 4) {
+		m_Movement->SetVelocity(Vec2(192.f, m_Movement->GetVelocity().y));
+		if (status == 0 && m_Animator->m_CurAnim->GetName() != L"MINI_Walk") {
+			m_Animator->Play(L"MINI_Walk", true);
+		}
+		else if (status == 1 && m_Animator->m_CurAnim->GetName() != L"SUPER_Walk") {
+			m_Animator->Play(L"SUPER_Walk", true);
+		}
 	}
 }
 

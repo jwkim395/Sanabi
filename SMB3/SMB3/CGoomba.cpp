@@ -8,7 +8,7 @@
 
 void CGoomba::tick(float _DT)
 {
-	if(deadTime == 1.f)
+	if(deadTime == 0.7f)
 		m_Movement->AddForce(Vec2(velo, 0.f));
 	else if(deadTime > 0.f){
 		deadTime -= DT;
@@ -57,7 +57,7 @@ void CGoomba::EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherC
 	}
 }
 
-CGoomba::CGoomba():CMonster(), velo(-50000.f), deadTime(1.f), onBlock(0)
+CGoomba::CGoomba():CMonster(), velo(-50000.f), deadTime(0.7f), onBlock(0)
 {
 	m_Collider = AddComponent<CCollider>(L"GoombaCollider");
 	m_Collider->SetScale(Vec2(64.f, 64.f));

@@ -65,7 +65,13 @@ void CPlayLevel::tick()
 	if (CLevelMgr::GetInst()->getmTime() <= 0.f && CLevelMgr::GetInst()->getMarioStatus() == 4) {
 		ChangeLevel(LEVEL_TYPE::EDITOR_LEVEL);
 	}
-	if (CLevelMgr::GetInst()->getmTime() > 0.f) {
+	if (CLevelMgr::GetInst()->getMarioStatus() == 4) {
+		CCollisionMgr::GetInst()->UncheckCollision(MONSTER, PLAYER);
+		CCollisionMgr::GetInst()->UncheckCollision(MONSTER, PLATFORM);
+		CCollisionMgr::GetInst()->UncheckCollision(ITEM, PLAYER);
+		CCollisionMgr::GetInst()->UncheckCollision(ITEM, PLATFORM);
+	}
+	else if (CLevelMgr::GetInst()->getmTime() > 0.f) {
 		CCollisionMgr::GetInst()->UncheckCollision(MONSTER, PLAYER);
 		CCollisionMgr::GetInst()->UncheckCollision(MONSTER, PLATFORM);
 		CCollisionMgr::GetInst()->UncheckCollision(PLAYER, PLATFORM);
@@ -156,7 +162,6 @@ void CPlayLevel::setObj(CTile* _tile)
 		endTile->SetScale(Vec2(64.f, 64.f));
 		AddObject(PLATFORM, endTile);
 		
-		/*
 		// 검은 배경
 		CBackGround* mainEndBackGround = new CBackGround;
 		mainEndBackGround->SetPos(Vec2(_tile->GetPos().x, _tile->GetPos().y - 50.f));
@@ -175,7 +180,6 @@ void CPlayLevel::setObj(CTile* _tile)
 			endBackGround->setTexture(L"TileAtlas", L"texture\\69718.png");
 			AddObject(BACKGROUND, endBackGround);
 		}
-		*/
 	}
 	else if (_tile->GetImgIdx() >= 26) {
 		// 굼바 추가
