@@ -45,7 +45,7 @@ void CPlayLevel::enter()
 				setObj(tToObj);
 		}
 	}
-
+	CCamera::GetInst()->setMapSize(CLevelMgr::GetInst()->getMapData()->vLeft, CLevelMgr::GetInst()->getMapData()->vBottomRight, CLevelMgr::GetInst()->getMapData()->vBottomRight);
 	CLevelMgr::GetInst()->setMarioStatus(1);
 	CCamera::GetInst()->FadeIn(0.3f);
 }
@@ -53,6 +53,10 @@ void CPlayLevel::enter()
 void CPlayLevel::exit()
 {
 	CLevelMgr::GetInst()->clearMapData();
+	Vec2 vResolution = CEngine::GetInst()->GetResolution();
+	Vec2 vCenter = vResolution / 2.f;
+	CCamera::GetInst()->SetLookAt(vCenter);
+	CCamera::GetInst()->setTarget(nullptr);
 	DeleteAllObjects();
 }
 
@@ -98,6 +102,7 @@ void CPlayLevel::setObj(CTile* _tile)
 		pPlayer->SetPos(Vec2(_tile->GetPos().x, _tile->GetPos().y - 1.f));
 		pPlayer->SetScale(Vec2(64.f, 64.f));
 		AddObject(PLAYER, pPlayer);
+		CCamera::GetInst()->setTarget(pPlayer);
 	}
 	// 원본 이미지로 불러오는 설정좀 해야댐 마리오는 되어있음
 	// 해당 함수에서 불러올 수 있도록 조정중
@@ -164,7 +169,7 @@ void CPlayLevel::setObj(CTile* _tile)
 		
 		// 검은 배경
 		CBackGround* mainEndBackGround = new CBackGround;
-		mainEndBackGround->SetPos(Vec2(_tile->GetPos().x, _tile->GetPos().y - 50.f));
+		mainEndBackGround->SetPos(Vec2(_tile->GetPos().x + 100.f, _tile->GetPos().y - 50.f));
 		mainEndBackGround->SetScale(Vec2(1000.f, 1024.f));
 		mainEndBackGround->setImagePos(Vec2(1.f, 3684.f), Vec2(500.f, 512.f));
 		mainEndBackGround->setTexture(L"BackAtlas", L"texture\\back.png");
@@ -173,7 +178,7 @@ void CPlayLevel::setObj(CTile* _tile)
 		CBackGround* endBackGround;
 		for (float i = 64.f; i <= 1024.f; i += 128.f) {
 			endBackGround = new CBackGround;
-			endBackGround->SetPos(Vec2(_tile->GetPos().x - mainEndBackGround->GetScale().x / 2 - 64.f
+			endBackGround->SetPos(Vec2(mainEndBackGround->GetPos().x - mainEndBackGround->GetScale().x / 2 - 64.f
 				, mainEndBackGround->GetPos().y - mainEndBackGround->GetScale().y / 2 + i));
 			endBackGround->SetScale(Vec2(64.f, 64.f));
 			endBackGround->setImagePos(Vec2(130.f, 879.f), Vec2(64.f, 64.f));

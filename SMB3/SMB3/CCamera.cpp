@@ -6,6 +6,8 @@
 #include "CTimeMgr.h"
 #include "CLevelMgr.h"
 #include "CEditorLevel.h"
+#include "CPlayLevel.h"
+#include "CMario.h"
 
 #include "CAssetMgr.h"
 #include "CTexture.h"
@@ -24,28 +26,9 @@ CCamera::~CCamera()
 
 void CCamera::tick()
 {
-	// 방향키로 카메라가 바라보고 있는 위치를 변경
-	/*
-	if (KEY_PRESSED(KEY::LEFT))
-	{
-		m_vLookAt.x -= 200.f * DT;
-	}
-
-	if (KEY_PRESSED(KEY::RIGHT))
-	{
-		m_vLookAt.x += 200.f * DT;
-	}
-
-	if (KEY_PRESSED(KEY::UP))
-	{
-		m_vLookAt.y -= 200.f * DT;
-	}
-
-	if (KEY_PRESSED(KEY::DOWN))
-	{
-		m_vLookAt.y += 200.f * DT;
-	}
-	*/
+	// 화면 해상도의 중심위치를 알아낸다.
+	Vec2 vResolution = CEngine::GetInst()->GetResolution();
+	Vec2 vCenter = vResolution / 2.f;
 	if (dynamic_cast<CEditorLevel*>(CLevelMgr::GetInst()->GetCurLevel())) {
 		if (KEY_TAP(KEY::LEFT))
 		{
@@ -66,19 +49,30 @@ void CCamera::tick()
 		{
 			m_vLookAt.y += 64.f;
 		}
+		
 	}
-
-	// 화면 해상도의 중심위치를 알아낸다.
-	Vec2 vResolution = CEngine::GetInst()->GetResolution();
-	Vec2 vCenter = vResolution / 2.f;
-
+	if (dynamic_cast<CPlayLevel*>(CLevelMgr::GetInst()->GetCurLevel())) {
+		if (nullptr != target) {
+			Vec2 vResol = CEngine::GetInst()->GetResolution();
+			m_vLookAt = target->GetPos();
+			if (m_vLookAt.y - vResol.y / 2 > mapBottom.y) {
+				m_vLookAt.y = mapBottom.y + vResol.y / 2;
+			}
+			if (m_vLookAt.x - vResol.y / 2 < mapLeft.x) {
+				m_vLookAt.x = mapLeft.x + vResol.x / 2;
+			}
+			else if (m_vLookAt.x + vResol.y / 2 > mapRight.x) {
+				m_vLookAt.x = mapRight.x + vResol.x / 2;
+			}
+		}
+	}
 	// 해상도 중심과, 카메라가 현재 보고있는 좌표의 차이값을 구한다.
 	m_vDiff = m_vLookAt - vCenter;
 
 	// 카메라 이벤트가 없으면 리턴
 	if (m_EventList.empty())
 		return;
-	
+
 	// 카메라 이벤트가 존재한다면
 	FCamEvent& evnt = m_EventList.front();
 
@@ -87,7 +81,7 @@ void CCamera::tick()
 		evnt.AccTime += DT;
 
 		if (evnt.Duration <= evnt.AccTime)
-		{			
+		{
 			m_Alpha = 0;
 			m_EventList.pop_front();
 		}
@@ -104,7 +98,7 @@ void CCamera::tick()
 		evnt.AccTime += DT;
 
 		if (evnt.Duration <= evnt.AccTime)
-		{			
+		{
 			m_EventList.pop_front();
 			m_Alpha = 255;
 		}
@@ -115,6 +109,9 @@ void CCamera::tick()
 			m_Alpha = (UINT)(alpha * 255);
 		}
 	}
+	
+
+	
 }
 
 void CCamera::render(HDC _dc)

@@ -250,7 +250,7 @@ void CMario::tick(float _DT)
 		m_Movement->AddForce(Vec2(0.f, 1200.f));
 	}
 	else if (CLevelMgr::GetInst()->getMarioStatus() == 4) {
-		m_Movement->SetVelocity(Vec2(192.f, m_Movement->GetVelocity().y));
+		m_Movement->SetVelocity(Vec2(120.f, m_Movement->GetVelocity().y));
 		if (status == 0 && m_Animator->m_CurAnim->GetName() != L"MINI_Walk") {
 			m_Animator->Play(L"MINI_Walk", true);
 		}

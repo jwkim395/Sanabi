@@ -27,9 +27,16 @@ private:
 	list<FCamEvent>		m_EventList;
 	UINT				m_Alpha;
 
+	class CMario* target;
+	Vec2 mapLeft;
+	Vec2 mapRight;
+	Vec2 mapBottom;
+
 
 
 public:
+	void setTarget(CMario* _tar) { target = _tar; }
+	void setMapSize(Vec2 _left, Vec2 _right, Vec2 _mapBottom) { mapLeft = _left; mapRight = _right; mapBottom = _mapBottom; }
 	void tick();
 	void render(HDC _dc);
 	void SetLookAt(Vec2 _vLookAt) { m_vLookAt = _vLookAt; }
