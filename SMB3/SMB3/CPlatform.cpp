@@ -93,41 +93,43 @@ void CPlatform::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCo
             }
         }
         else {
-            if (GetPos().x <= _OtherObj->GetPos().x && platRight >= otherLeft)// && plattop <= otherbottom)
-            {
-                
-                float side = (_OwnCol->GetScale().x / 2.f
-                    + _OtherCol->GetScale().x / 2.f
-                    - abs(_OwnCol->GetPos().x
-                        - (_OtherCol->GetPos().x))
-                    ) / 2.f;
-
-                _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x + side, _OtherObj->GetPos().y));
-                CMovement* mov = _OtherObj->GetMovement();
-
-                if (nullptr != mov)
+            if (GetPos().y > _OtherObj->GetPos().y - _OtherObj->GetScale().y / 2 * 0.8 && GetPos().y < _OtherObj->GetPos().y + _OtherObj->GetScale().y / 2 * 0.8) {
+                if (GetPos().x <= _OtherObj->GetPos().x && platRight >= otherLeft)// && plattop <= otherbottom)
                 {
-                    Vec2 v = mov->GetVelocity();
-                    mov->SetVelocity(Vec2(-abs(v.x) / 3.f, v.y));
+
+                    float side = (_OwnCol->GetScale().x / 2.f
+                        + _OtherCol->GetScale().x / 2.f
+                        - abs(_OwnCol->GetPos().x
+                            - (_OtherCol->GetPos().x))
+                        ) / 2.f;
+
+                    _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x + side, _OtherObj->GetPos().y));
+                    CMovement* mov = _OtherObj->GetMovement();
+
+                    if (nullptr != mov)
+                    {
+                        Vec2 v = mov->GetVelocity();
+                        mov->SetVelocity(Vec2(-abs(v.x) / 3.f, v.y));
+                    }
+
                 }
-                
-            }
-            else if (GetPos().x >= _OtherObj->GetPos().x && platLeft <= otherRight)// && plattop <= otherbottom)
-            {
-                
-                float side = (_OwnCol->GetScale().x / 2.f
-                    + _OtherCol->GetScale().x / 2.f
-                    - abs(_OwnCol->GetPos().x
-                        - (_OtherCol->GetPos().x))
-                    ) / 2.f;
-
-                _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x - side, _OtherObj->GetPos().y));
-                CMovement* mov = _OtherObj->GetMovement();
-
-                if (nullptr != mov)
+                else if (GetPos().x >= _OtherObj->GetPos().x && platLeft <= otherRight)// && plattop <= otherbottom)
                 {
-                    Vec2 v = mov->GetVelocity();
-                    mov->SetVelocity(Vec2(-abs(v.x)/3.f, v.y));
+
+                    float side = (_OwnCol->GetScale().x / 2.f
+                        + _OtherCol->GetScale().x / 2.f
+                        - abs(_OwnCol->GetPos().x
+                            - (_OtherCol->GetPos().x))
+                        ) / 2.f;
+
+                    _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x - side, _OtherObj->GetPos().y));
+                    CMovement* mov = _OtherObj->GetMovement();
+
+                    if (nullptr != mov)
+                    {
+                        Vec2 v = mov->GetVelocity();
+                        mov->SetVelocity(Vec2(-abs(v.x) / 3.f, v.y));
+                    }
                 }
             }
         }

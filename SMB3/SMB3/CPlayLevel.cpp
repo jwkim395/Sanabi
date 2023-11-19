@@ -102,6 +102,14 @@ void CPlayLevel::setObj(CTile* _tile)
 		pPlayer->SetPos(Vec2(_tile->GetPos().x, _tile->GetPos().y - 1.f));
 		pPlayer->SetScale(Vec2(64.f, 64.f));
 		AddObject(PLAYER, pPlayer);
+
+		CBackGround* moveArrow = new CBackGround;
+		moveArrow->SetPos(Vec2(_tile->GetPos().x + 192.f, _tile->GetPos().y - 16.f));
+		moveArrow->SetScale(Vec2(48.f, 48.f)*4);
+		moveArrow->setImagePos(Vec2(399.f, 664.f), Vec2(48.f, 48.f));
+		moveArrow->setTexture(L"TileAtlas", L"texture\\69718.png");
+		AddObject(BACKGROUND, moveArrow);
+
 		CCamera::GetInst()->setTarget(pPlayer);
 	}
 	// 원본 이미지로 불러오는 설정좀 해야댐 마리오는 되어있음

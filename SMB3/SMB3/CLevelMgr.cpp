@@ -30,6 +30,13 @@ CLevelMgr::~CLevelMgr()
 		if (nullptr != m_arrLevels[i])
 			delete m_arrLevels[i];
 	}
+	if (nullptr != selectedTile) {
+		delete selectedTile;
+	}
+	if (nullptr != curMap) {
+		delete curMap;
+	}
+	
 }
 
 

@@ -117,6 +117,7 @@ void CEditorLevel::exit()
 {
 	const vector<CObj*>& vecTile = GetObjects(LAYER::TILE);
 	CLevelMgr::GetInst()->SetMapData(vecTile, mLeft, mRightBottom);
+	CLevelMgr::GetInst()->SetTile(nullptr);
 	ClearLayer(TILE);
 	DeleteAllObjects();
 }
