@@ -55,14 +55,14 @@ void CCamera::tick()
 		if (nullptr != target) {
 			Vec2 vResol = CEngine::GetInst()->GetResolution();
 			m_vLookAt = target->GetPos();
-			if (m_vLookAt.y - vResol.y / 2 > mapBottom.y) {
-				m_vLookAt.y = mapBottom.y + vResol.y / 2;
+			if (m_vLookAt.y + vResol.y / 2 > mapBottom.y) {
+				m_vLookAt.y = mapBottom.y - vResol.y / 2;
 			}
-			if (m_vLookAt.x - vResol.y / 2 < mapLeft.x) {
+			if (m_vLookAt.x - vResol.x / 2 < mapLeft.x) {
 				m_vLookAt.x = mapLeft.x + vResol.x / 2;
 			}
-			else if (m_vLookAt.x + vResol.y / 2 > mapRight.x) {
-				m_vLookAt.x = mapRight.x + vResol.x / 2;
+			else if (m_vLookAt.x + vResol.x / 2 > mapRight.x) {
+				m_vLookAt.x = mapRight.x - vResol.x / 2;
 			}
 		}
 	}

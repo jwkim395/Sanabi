@@ -90,6 +90,12 @@ void CMario::tick(float _DT)
 {
 	if (CLevelMgr::GetInst()->getmTime() <= 0) {
 		Super::tick(_DT);
+
+		if (GetPos().y > CLevelMgr::GetInst()->getMapData()->vBottomRight.y) {
+			dead();
+			return;
+		}
+
 		if (KEY_TAP(LEFT)) {
 			watchDir = false;
 		}

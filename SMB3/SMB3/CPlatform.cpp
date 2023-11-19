@@ -64,7 +64,7 @@ void CPlatform::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCo
         //if ((UINT)LAYER::MONSTER == _OtherObj->GetLayerIdx())
         //   int a = 0;
 
-        float yfix = ((UINT)LAYER::PLAYER == _OtherObj->GetLayerIdx()) ? 0.99f : 0.95f;
+        float yfix = ((UINT)LAYER::PLAYER == _OtherObj->GetLayerIdx()) ? 0.985f : 0.95f;
         if (dynamic_cast<CItem*>(_OtherObj) && !dynamic_cast<CItem*>(_OtherObj)->getIsMoving())
             return;
 
@@ -85,7 +85,7 @@ void CPlatform::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCo
                     - (_OtherCol->GetPos().y))
                 ) / 2.f;
             CMovement* mov = _OtherObj->GetMovement();
-            _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x, _OtherObj->GetPos().y + down + 1.f));
+            _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x, _OtherObj->GetPos().y + down));
             if (nullptr != mov)
             {
                 Vec2 v = mov->GetVelocity();
@@ -102,7 +102,7 @@ void CPlatform::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCo
                         - (_OtherCol->GetPos().x))
                     ) / 2.f;
 
-                _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x + side + 1.f, _OtherObj->GetPos().y));
+                _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x + side, _OtherObj->GetPos().y));
                 CMovement* mov = _OtherObj->GetMovement();
 
                 if (nullptr != mov)
@@ -121,7 +121,7 @@ void CPlatform::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCo
                         - (_OtherCol->GetPos().x))
                     ) / 2.f;
 
-                _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x - side - 1.f, _OtherObj->GetPos().y));
+                _OtherObj->SetPos(Vec2(_OtherObj->GetPos().x - side, _OtherObj->GetPos().y));
                 CMovement* mov = _OtherObj->GetMovement();
 
                 if (nullptr != mov)
