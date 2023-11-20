@@ -14,6 +14,7 @@ public:
 
     virtual void BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
     virtual void EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol) override;
+    void setShellMove(float);
 
 public:
     CLONE(CTurtle);

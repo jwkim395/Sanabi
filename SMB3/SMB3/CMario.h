@@ -25,6 +25,7 @@ public:
     void powerUp();
     void powerDown();
     void dead();
+    int getStatus() { return status; }
 
 public:
     CLONE_DISABLE(CMario);

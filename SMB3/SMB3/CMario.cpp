@@ -14,6 +14,7 @@
 #include "CLogMgr.h"
 #include "CPlatform.h"
 #include "CMonster.h"
+#include "CTurtle.h"
 #include "CLevelMgr.h"
 #include "CItem.h"
 
@@ -288,10 +289,15 @@ void CMario::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Other
 		float playerprevbottom = (_OwnCol->GetPrevPos().y + _OwnCol->GetScale().y / 2.f);
 
 		if (monTop >= playerprevbottom * 0.98f)
-			m_Movement->SetVelocity(Vec2(m_Movement->GetVelocity().x, -1200.f));
-		else
-			powerDown();
-		
+			m_Movement->SetVelocity(Vec2(m_Movement->GetVelocity().x, -1000.f));
+		else {
+			CTurtle* isTur = dynamic_cast<CTurtle*>(_OtherObj);
+			if (isTur && abs(isTur->GetMovement()->GetVelocity().x ) == 0.f) {
+				isTur->setShellMove(GetPos().x);
+			}
+			else
+				powerDown();
+		}
 	}
 	if ((UINT)LAYER::ITEM == _OtherObj->GetLayerIdx()) {
 		CItem* curItem = dynamic_cast<CItem*>(_OtherObj);

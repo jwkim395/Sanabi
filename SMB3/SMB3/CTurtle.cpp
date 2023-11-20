@@ -30,7 +30,7 @@ void CTurtle::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Othe
 				m_Movement->SetInitSpeed(280.f);
 				m_Movement->SetMaxSpeed(280.f);
 				m_Animator->Play(L"TURTLE_Shell_IDLE", true);
-				m_Collider->SetScale(Vec2(64.f, 64.f));
+				m_Collider->SetScale(Vec2(63.f, 63.f));
 				SetPos(Vec2(GetPos().x, GetPos().y + 22.f)); //54 > 32
 			}
 			else{
@@ -42,14 +42,8 @@ void CTurtle::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Othe
 					m_Movement->SetVelocity(Vec2(0, 0));
 					m_Animator->Play(L"TURTLE_Shell_IDLE", true);
 				}
-				else {
-					m_Animator->Play(L"TURTLE_Shell_Move", true);
-					if (GetPos().x - _OtherObj->GetPos().x > 0)
-						velo = 5000000;
-					else
-						velo = -5000000;
-					m_Movement->AddForce(Vec2(velo, 0.f));
-				}
+				else 
+					setShellMove(_OtherObj->GetPos().x);
 			}
 		}
 	}
@@ -74,10 +68,21 @@ void CTurtle::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Othe
 void CTurtle::EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 {
 	if (dynamic_cast<CPlatform*>(_OtherObj)) {
-		onBlock -= 1;
+		if(onBlock > 0)
+			onBlock -= 1;
 		if (onBlock == 0)
 			m_Movement->SetGround(false);
 	}
+}
+
+void CTurtle::setShellMove(float _otherPos)
+{
+	m_Animator->Play(L"TURTLE_Shell_Move", true);
+	if (GetPos().x - _otherPos > 0)
+		velo = 5000000;
+	else
+		velo = -5000000;
+	m_Movement->AddForce(Vec2(velo, 0.f));
 }
 
 CTurtle::CTurtle():CMonster(), velo(-50000.f), onBlock(0), status(1)
