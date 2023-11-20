@@ -5,9 +5,12 @@
 #include "CTimeMgr.h"
 #include "CMario.h"
 #include "CPlatform.h"
+#include "CLevelMgr.h"
 
 void CGoomba::tick(float _DT)
 {
+	if (GetPos().y > CLevelMgr::GetInst()->getMapData()->vBottomRight.y)
+		Destroy();
 	if(deadTime == 0.7f)
 		m_Movement->AddForce(Vec2(velo, 0.f));
 	else if(deadTime > 0.f){
@@ -69,7 +72,7 @@ CGoomba::CGoomba():CMonster(), velo(-50000.f), deadTime(0.7f), onBlock(0)
 	m_Animator->Play(L"GOOMBA_IDLE", true);
 	
 	
-	m_Movement = AddComponent<CMovement>(L"PlayerMovement");
+	m_Movement = AddComponent<CMovement>(L"GoombaMovement");
 	m_Movement->SetMass(1.f);
 	m_Movement->SetInitSpeed(64.f);
 	m_Movement->SetMaxSpeed(64.f);

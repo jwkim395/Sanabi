@@ -267,6 +267,9 @@
     <ClInclude Include="CBackGround.h">
       <Filter>Game\05. Object\BackGround</Filter>
     </ClInclude>
+    <ClInclude Include="CTurtle.h">
+      <Filter>Game\05. Object\Monster\Turtle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -418,6 +421,9 @@
     </ClCompile>
     <ClCompile Include="CBackGround.cpp">
       <Filter>Game\05. Object\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="CTurtle.cpp">
+      <Filter>Game\05. Object\Monster\Turtle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
