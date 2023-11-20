@@ -265,7 +265,7 @@
       <Filter>Game\05. Object\Platform\Item</Filter>
     </ClInclude>
     <ClInclude Include="CBackGround.h">
-      <Filter>Game</Filter>
+      <Filter>Game\05. Object\BackGround</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -417,7 +417,7 @@
       <Filter>Game\05. Object\Platform\Item</Filter>
     </ClCompile>
     <ClCompile Include="CBackGround.cpp">
-      <Filter>Default</Filter>
+      <Filter>Game\05. Object\BackGround</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
