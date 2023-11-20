@@ -16,6 +16,7 @@
 #include "CSound.h"
 #include "CPathMgr.h"
 #include "CGoomba.h"
+#include "CTurtle.h"
 #include "CBackGround.h"
 
 #include "platforms.h"
@@ -194,11 +195,18 @@ void CPlayLevel::setObj(CTile* _tile)
 			AddObject(BACKGROUND, endBackGround);
 		}
 	}
-	else if (_tile->GetImgIdx() >= 26) {
+	else if (_tile->GetImgIdx() == 26) {
 		// 굼바 추가
 		CMonster* pMonster = new CGoomba;
 		pMonster->SetPos(_tile->GetPos());
 		pMonster->SetScale(Vec2(64.f, 64.f));
+		AddObject(MONSTER, pMonster);
+	}
+	else if (_tile->GetImgIdx() == 27) {
+		// 굼바 추가
+		CMonster* pMonster = new CTurtle;
+		pMonster->SetPos(Vec2(_tile->GetPos().x, _tile->GetPos().y - 22.f)); // 27
+		pMonster->SetScale(Vec2(64.f, 108.f)); // 32 > 54
 		AddObject(MONSTER, pMonster);
 	}
 

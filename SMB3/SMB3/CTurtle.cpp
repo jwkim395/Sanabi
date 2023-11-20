@@ -11,8 +11,7 @@ void CTurtle::tick(float _DT)
 {
 	if (GetPos().y > CLevelMgr::GetInst()->getMapData()->vBottomRight.y)
 		Destroy();
-	if(abs(m_Movement->GetVelocity().x > 0))
-		m_Movement->AddForce(Vec2(velo, 0.f));
+	m_Movement->AddForce(Vec2(velo, 0.f));
 }
 
 void CTurtle::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
@@ -25,26 +24,30 @@ void CTurtle::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Othe
 		if (monTop >= playerprevbottom * 0.98f)
 		{
 			if (status == 1) {
+				status = 2;
+				velo = 0.f;
 				m_Movement->SetVelocity(Vec2(0.f, 0.f));
 				m_Movement->SetInitSpeed(220.f);
 				m_Movement->SetMaxSpeed(220.f);
-				m_Animator->Play(L"GOOMBA_Shell_IDLE", true);
+				m_Animator->Play(L"TURTLE_Shell_IDLE", true);
 				m_Collider->SetScale(Vec2(64.f, 64.f));
-				SetPos(Vec2(GetPos().x, GetPos().x + 10.f));
+				SetPos(Vec2(GetPos().x, GetPos().y + 22.f)); //54 > 32
 			}
-			else {
+			else{
 				// 마리오의 중심 기준 거북이의 왼쪽으로 찍으면 velo음수
 				// 오른쪽이면 양수
 				// 움직이고 있는 상태에서 찍으면 정지
-				if (abs(m_Movement->GetVelocity().x) > 0) {
+				if (abs(velo) > 0.f) {
+					velo = 0.f;
 					m_Movement->SetVelocity(Vec2(0, 0));
-					m_Animator->Play(L"GOOMBA_Shell_IDLE", true);
+					m_Animator->Play(L"TURTLE_Shell_IDLE", true);
 				}
 				else {
+					m_Animator->Play(L"TURTLE_Shell_Move", true);
 					if (GetPos().x - _OtherObj->GetPos().x > 0)
-						velo = abs(velo);
+						velo = 5000000;
 					else
-						velo = abs(velo) * -1;
+						velo = -5000000;
 					m_Movement->AddForce(Vec2(velo, 0.f));
 				}
 			}
@@ -77,17 +80,18 @@ void CTurtle::EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherC
 	}
 }
 
-CTurtle::CTurtle():CMonster(), velo(-50000.f), onBlock(0)
+CTurtle::CTurtle():CMonster(), velo(-50000.f), onBlock(0), status(1)
 {
 	m_Collider = AddComponent<CCollider>(L"TurtleCollider");
-	m_Collider->SetScale(Vec2(64.f, 120.f));
+	m_Collider->SetScale(Vec2(64.f, 108.f));
 	m_Collider->SetOffsetPos(Vec2(0.f, 0.f));
 	CTexture* pAtlas = CAssetMgr::GetInst()->LoadTexture(L"MonsterAtlas", L"texture\\119432.png");
 	m_Animator = AddComponent<CAnimator>(L"TurtleAnimator");
 	m_Animator->LoadAnimation(L"animdata\\TURTLE_IDLE.txt");
-	m_Animator->LoadAnimation(L"animdata\\TURTLE_IDLE_L.txt");
 	m_Animator->LoadAnimation(L"animdata\\TURTLE_Shell_IDLE.txt");
 	m_Animator->LoadAnimation(L"animdata\\TURTLE_Shell_Move.txt");
+	pAtlas = CAssetMgr::GetInst()->LoadTexture(L"MonsterLAtlas", L"texture\\119432_l.png");
+	m_Animator->LoadAnimation(L"animdata\\TURTLE_IDLE_L.txt");
 	m_Animator->Play(L"TURTLE_IDLE_L", true);
 
 
@@ -98,6 +102,7 @@ CTurtle::CTurtle():CMonster(), velo(-50000.f), onBlock(0)
 	m_Movement->UseGravity(true);
 	m_Movement->SetGravity(Vec2(0.f, 3000.f));
 	m_Movement->SetGround(true);
+	m_Movement->AddForce(Vec2(velo, 0.f));
 }
 
 CTurtle::CTurtle(const CTurtle& _Origin)
