@@ -27,8 +27,8 @@ void CTurtle::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Othe
 				status = 2;
 				velo = 0.f;
 				m_Movement->SetVelocity(Vec2(0.f, 0.f));
-				m_Movement->SetInitSpeed(220.f);
-				m_Movement->SetMaxSpeed(220.f);
+				m_Movement->SetInitSpeed(280.f);
+				m_Movement->SetMaxSpeed(280.f);
 				m_Animator->Play(L"TURTLE_Shell_IDLE", true);
 				m_Collider->SetScale(Vec2(64.f, 64.f));
 				SetPos(Vec2(GetPos().x, GetPos().y + 22.f)); //54 > 32
