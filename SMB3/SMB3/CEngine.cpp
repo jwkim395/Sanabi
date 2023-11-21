@@ -66,6 +66,18 @@ void CEngine::init(HWND _hWnd, POINT _ptResolution)
 	CPathMgr::init();
 	CSoundMgr::GetInst()->init();
 	CLevelMgr::GetInst()->init();
+	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"GameBGM", L"sound\\main_theme.wav");
+	CAssetMgr::GetInst()->LoadSound(L"BreakBlock", L"sound\\BreakBlock.wav");
+	CAssetMgr::GetInst()->LoadSound(L"Coin", L"sound\\Coin.wav");
+	CAssetMgr::GetInst()->LoadSound(L"Death", L"sound\\death.wav");
+	CAssetMgr::GetInst()->LoadSound(L"HitFloor", L"sound\\HitFloor.wav");
+	CAssetMgr::GetInst()->LoadSound(L"Jump", L"sound\\Jump.wav");
+	CAssetMgr::GetInst()->LoadSound(L"Kick", L"sound\\Kick.wav");
+	CAssetMgr::GetInst()->LoadSound(L"PowerDown", L"sound\\PowerDown.wav");
+	CAssetMgr::GetInst()->LoadSound(L"PowerUp", L"sound\\PowerUp.wav");
+	CAssetMgr::GetInst()->LoadSound(L"PowerUpAppear", L"sound\\PowerUpItemAppear.wav");
+	CAssetMgr::GetInst()->LoadSound(L"StageClear", L"sound\\stage_clear.wav");
+	CAssetMgr::GetInst()->LoadSound(L"StepEnemy", L"sound\\StepEnemy.wav");
 	
 	// Default GDI Object 생성
 	CreateDefaultGDI();

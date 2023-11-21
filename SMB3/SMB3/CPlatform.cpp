@@ -4,6 +4,9 @@
 #include "components.h"
 #include "CItem.h"
 
+#include "CSound.h"
+#include "CSoundMgr.h"
+
 CPlatform::CPlatform()
 {
 }
@@ -158,6 +161,11 @@ void CPlatform::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Ot
         //위에서 올라왔으면, y스피드를 0으로 고정
         if (plattop >= otherprevbottom || platBottom <= otherTop)// *yfix)
         {
+            if (platBottom <= otherTop) {
+                CSound* pSound = CAssetMgr::GetInst()->FindSound(L"HitFloor");
+                pSound->SetVolume(80);
+                pSound->Play();
+            }
             CMovement* mov = _OtherObj->GetMovement();
             
             if (nullptr != mov)

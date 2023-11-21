@@ -17,6 +17,8 @@
 #include "CTurtle.h"
 #include "CLevelMgr.h"
 #include "CItem.h"
+#include "CSound.h"
+#include "CSoundMgr.h"
 
 #include "components.h"
 
@@ -88,8 +90,7 @@ void CMario::tick(float _DT)
 {
 	if (CLevelMgr::GetInst()->getmTime() <= 0) {
 		Super::tick(_DT);
-
-		if (GetPos().y > CLevelMgr::GetInst()->getMapData()->vBottomRight.y) {
+		if (GetPos().y > CLevelMgr::GetInst()->getMapData()->vBottomRight.y && CLevelMgr::GetInst()->getMarioStatus() != 4) {
 			dead();
 			return;
 		}
@@ -211,6 +212,9 @@ void CMario::tick(float _DT)
 		}
 		if (KEY_TAP(SPACE) && watchDir)
 		{
+			CSound* pSound = CAssetMgr::GetInst()->FindSound(L"Jump");
+			pSound->SetVolume(80);
+			pSound->Play();
 			if (status >= 1) {
 				m_Animator->Play(L"SUPER_Jump", true);
 			}
@@ -226,6 +230,9 @@ void CMario::tick(float _DT)
 		}
 		if (KEY_TAP(SPACE) && !watchDir)
 		{
+			CSound* pSound = CAssetMgr::GetInst()->FindSound(L"Jump");
+			pSound->SetVolume(80);
+			pSound->Play();
 			if (status >= 1) {
 				m_Animator->Play(L"SUPER_Jump_L", true);
 			}
@@ -322,6 +329,9 @@ void CMario::powerUp()
 {
 	if (status == 0) {
 		status = 1;
+		CSound* pSound = CAssetMgr::GetInst()->FindSound(L"PowerUp");
+		pSound->SetVolume(80);
+		pSound->Play();
 		m_Animator->Play(L"MINI_TO_SUPER", true);
 		SetPos(Vec2(GetPos().x, GetPos().y - 16.f));
 		SetScale(Vec2(64.f, 112.f));
@@ -340,6 +350,9 @@ void CMario::powerDown()
 	}
 	else if (status == 1) {
 		--status;
+		CSound* pSound = CAssetMgr::GetInst()->FindSound(L"PowerDown");
+		pSound->SetVolume(80);
+		pSound->Play();
 		m_Animator->Play(L"MINI_TO_SUPER", true);
 		SetPos(Vec2(GetPos().x, GetPos().y + 16.f));
 		SetScale(Vec2(64.f, 64.f));
@@ -354,9 +367,12 @@ void CMario::powerDown()
 
 void CMario::dead()
 {
+	CSound* pSound = CAssetMgr::GetInst()->FindSound(L"Death");
+	pSound->SetVolume(80);
+	pSound->PlayToBGM();
 	m_Animator->Play(L"MINI_Dead", true);
 	m_Movement->SetVelocity(Vec2(0.f, -800.f));
-	CLevelMgr::GetInst()->setmTime(5.f);
+	CLevelMgr::GetInst()->setmTime(2.5f);
 	CLevelMgr::GetInst()->setMarioStatus(3);
 }
 

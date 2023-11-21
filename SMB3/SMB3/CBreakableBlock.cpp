@@ -3,6 +3,7 @@
 #include "CAssetMgr.h"
 #include "CMario.h"
 #include "CTurtle.h"
+#include "CSound.h"
 
 void CBreakableBlock::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
 {
@@ -12,6 +13,9 @@ void CBreakableBlock::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollide
 		float otherTop = _OtherCol->GetPrevPos().y - _OtherCol->GetScale().y / 2.f;
         if (platBottom <= otherTop)
         {
+			CSound* pSound = CAssetMgr::GetInst()->FindSound(L"BreakBlock");
+			pSound->SetVolume(80);
+			pSound->Play();
             Destroy();
         }
 	}
@@ -20,10 +24,13 @@ void CBreakableBlock::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollide
         float otherprevbottom = (_OtherCol->GetPrevPos().y + _OtherCol->GetScale().y / 2.f);
 		float platBottom = _OwnCol->GetPos().y + _OwnCol->GetScale().y / 2.f;
 		float otherTop = _OtherCol->GetPrevPos().y - _OtherCol->GetScale().y / 2.f;
-		if (plattop >= otherprevbottom) {
+		if (plattop >= otherprevbottom*0.98) {
 
 		}
 		else {
+			CSound* pSound = CAssetMgr::GetInst()->FindSound(L"BreakBlock");
+			pSound->SetVolume(80);
+			pSound->Play();
 			Destroy();
 		}
 	}

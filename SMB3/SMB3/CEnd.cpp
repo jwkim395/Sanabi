@@ -4,6 +4,7 @@
 #include "CLevelMgr.h"
 #include "CLevel.h"
 #include "CBackGround.h"
+#include "CSound.h"
 
 
 void CEnd::Overlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCol)
@@ -14,8 +15,11 @@ void CEnd::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherCo
 {
 	if (_OtherObj->GetLayerIdx() == PLAYER) {
 		_OtherObj->GetMovement()->SetVelocity(Vec2(192.f, 0.f));
-		CLevelMgr::GetInst()->setmTime(4.f);
+		CLevelMgr::GetInst()->setmTime(7.f);
 		CLevelMgr::GetInst()->setMarioStatus(4);
+		CSound* pSound = CAssetMgr::GetInst()->FindSound(L"StageClear");
+		pSound->SetVolume(80);
+		pSound->PlayToBGM();
 		CBackGround* CourseClear;
 		CourseClear = new CBackGround;
 		CourseClear->SetPos(Vec2(GetPos().x, GetPos().y - 300.f));

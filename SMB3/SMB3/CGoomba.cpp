@@ -6,6 +6,7 @@
 #include "CMario.h"
 #include "CPlatform.h"
 #include "CLevelMgr.h"
+#include "CSound.h"
 
 void CGoomba::tick(float _DT)
 {
@@ -28,6 +29,9 @@ void CGoomba::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Othe
 {
 	// 위에서 밟았으면
 	if (dynamic_cast<CMario*>(_OtherObj)) {
+		CSound* pSound = CAssetMgr::GetInst()->FindSound(L"StepEnemy");
+		pSound->SetVolume(80);
+		pSound->Play();
 		float monTop = (_OwnCol->GetPos().y - _OwnCol->GetScale().y / 2.f);
 		float playerprevbottom = (_OtherCol->GetPrevPos().y + _OtherCol->GetScale().y / 2.f);
 

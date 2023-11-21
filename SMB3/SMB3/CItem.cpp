@@ -3,6 +3,10 @@
 #include "CAssetMgr.h"
 #include "CTimeMgr.h"
 
+#include "CSound.h"
+#include "CSoundMgr.h"
+
+
 void CItem::tick(float _DT)
 {
 	if (isMoving && overing <= 0 && itemNum == 2) {
@@ -34,10 +38,16 @@ void CItem::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherC
 		}
 		else {
 			if (itemNum == 2) {
+				CSound* pSound = CAssetMgr::GetInst()->FindSound(L"PowerUpAppear");
+				pSound->SetVolume(80);
+				pSound->Play();
 				overing = 1.f;
 			}
 			else {
 				overing = 0.5f;
+				CSound* pSound = CAssetMgr::GetInst()->FindSound(L"Coin");
+				pSound->SetVolume(80);
+				pSound->Play();
 				SetPos(GetPos() - Vec2(0.f, 64.f) * (0.8f));
 			}
 		}

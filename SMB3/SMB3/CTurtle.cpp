@@ -7,6 +7,9 @@
 #include "CPlatform.h"
 #include "CLevelMgr.h"
 
+#include "CSound.h"
+#include "CSoundMgr.h"
+
 void CTurtle::tick(float _DT)
 {
 	if (GetPos().y > CLevelMgr::GetInst()->getMapData()->vBottomRight.y)
@@ -24,13 +27,16 @@ void CTurtle::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Othe
 		if (monTop >= playerprevbottom * 0.98f)
 		{
 			if (status == 1) {
+				CSound* pSound = CAssetMgr::GetInst()->FindSound(L"StepEnemy");
+				pSound->SetVolume(80);
+				pSound->Play();
 				status = 2;
 				velo = 0.f;
 				m_Movement->SetVelocity(Vec2(0.f, 0.f));
 				m_Movement->SetInitSpeed(280.f);
 				m_Movement->SetMaxSpeed(280.f);
 				m_Animator->Play(L"TURTLE_Shell_IDLE", true);
-				m_Collider->SetScale(Vec2(63.f, 63.f));
+				m_Collider->SetScale(Vec2(62.f, 63.f));
 				SetPos(Vec2(GetPos().x, GetPos().y + 22.f)); //54 > 32
 			}
 			else{
@@ -39,6 +45,9 @@ void CTurtle::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _Othe
 				// 움직이고 있는 상태에서 찍으면 정지
 				if (abs(velo) > 0.f) {
 					velo = 0.f;
+					CSound* pSound = CAssetMgr::GetInst()->FindSound(L"StepEnemy");
+					pSound->SetVolume(80);
+					pSound->Play();
 					m_Movement->SetVelocity(Vec2(0, 0));
 					m_Animator->Play(L"TURTLE_Shell_IDLE", true);
 				}
@@ -77,6 +86,9 @@ void CTurtle::EndOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollider* _OtherC
 
 void CTurtle::setShellMove(float _otherPos)
 {
+	CSound* pSound = CAssetMgr::GetInst()->FindSound(L"Kick");
+	pSound->SetVolume(80);
+	pSound->Play();
 	m_Animator->Play(L"TURTLE_Shell_Move", true);
 	if (GetPos().x - _otherPos > 0)
 		velo = 5000000;

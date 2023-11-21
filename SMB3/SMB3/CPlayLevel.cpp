@@ -51,20 +51,7 @@ void CPlayLevel::enter()
 	CLevelMgr::GetInst()->setMarioStatus(1);
 	CCamera::GetInst()->FadeIn(0.3f);
 
-	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"GameBGM", L"sound\\main_theme.wav");
-
-	CAssetMgr::GetInst()->LoadSound(L"BreakBlock", L"sound\\BreakBlock.wav");
-	CAssetMgr::GetInst()->LoadSound(L"Coin", L"sound\\Coin.wav");
-	CAssetMgr::GetInst()->LoadSound(L"Death", L"sound\\death.wav");
-	CAssetMgr::GetInst()->LoadSound(L"HitFloor", L"sound\\HitFloor.wav");
-	CAssetMgr::GetInst()->LoadSound(L"Jump", L"sound\\Jump.wav");
-	CAssetMgr::GetInst()->LoadSound(L"Kick", L"sound\\Kick.wav");
-	CAssetMgr::GetInst()->LoadSound(L"PowerDown", L"sound\\PowerDown.wav");
-	CAssetMgr::GetInst()->LoadSound(L"PowerUp", L"sound\\PowerUp.wav");
-	CAssetMgr::GetInst()->LoadSound(L"PowerUpAppear", L"sound\\PowerUpItemAppear.wav");
-	CAssetMgr::GetInst()->LoadSound(L"StageClear", L"sound\\stage_clear.wav");
-	CAssetMgr::GetInst()->LoadSound(L"StepEnemy", L"sound\\StepEnemy.wav");
-	
+	CSound* pSound = CAssetMgr::GetInst()->FindSound(L"GameBGM");
 	pSound->SetVolume(100);
 	pSound->PlayToBGM(true);
 
@@ -82,12 +69,12 @@ void CPlayLevel::exit()
 
 void CPlayLevel::tick()
 {
-	if (CLevelMgr::GetInst()->getmTime() <= 0.f && CLevelMgr::GetInst()->getMarioStatus() == 3) {
-		DeleteAllObjects();
-		enter();
-	}
 	if (CLevelMgr::GetInst()->getmTime() <= 0.f && CLevelMgr::GetInst()->getMarioStatus() == 4) {
 		ChangeLevel(LEVEL_TYPE::EDITOR_LEVEL);
+	}
+	else if (CLevelMgr::GetInst()->getmTime() <= 0.f && CLevelMgr::GetInst()->getMarioStatus() == 3) {
+		DeleteAllObjects();
+		enter();
 	}
 	if (CLevelMgr::GetInst()->getMarioStatus() == 4) {
 		CCollisionMgr::GetInst()->UncheckCollision(MONSTER, PLAYER);
