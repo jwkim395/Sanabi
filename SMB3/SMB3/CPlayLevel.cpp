@@ -18,6 +18,7 @@
 #include "CGoomba.h"
 #include "CTurtle.h"
 #include "CBackGround.h"
+#include "CSoundMgr.h"
 
 #include "platforms.h"
 
@@ -49,6 +50,24 @@ void CPlayLevel::enter()
 	CCamera::GetInst()->setMapSize(CLevelMgr::GetInst()->getMapData()->vLeft, CLevelMgr::GetInst()->getMapData()->vBottomRight, CLevelMgr::GetInst()->getMapData()->vBottomRight);
 	CLevelMgr::GetInst()->setMarioStatus(1);
 	CCamera::GetInst()->FadeIn(0.3f);
+
+	CSound* pSound = CAssetMgr::GetInst()->LoadSound(L"GameBGM", L"sound\\main_theme.wav");
+
+	CAssetMgr::GetInst()->LoadSound(L"BreakBlock", L"sound\\BreakBlock.wav");
+	CAssetMgr::GetInst()->LoadSound(L"Coin", L"sound\\Coin.wav");
+	CAssetMgr::GetInst()->LoadSound(L"Death", L"sound\\death.wav");
+	CAssetMgr::GetInst()->LoadSound(L"HitFloor", L"sound\\HitFloor.wav");
+	CAssetMgr::GetInst()->LoadSound(L"Jump", L"sound\\Jump.wav");
+	CAssetMgr::GetInst()->LoadSound(L"Kick", L"sound\\Kick.wav");
+	CAssetMgr::GetInst()->LoadSound(L"PowerDown", L"sound\\PowerDown.wav");
+	CAssetMgr::GetInst()->LoadSound(L"PowerUp", L"sound\\PowerUp.wav");
+	CAssetMgr::GetInst()->LoadSound(L"PowerUpAppear", L"sound\\PowerUpItemAppear.wav");
+	CAssetMgr::GetInst()->LoadSound(L"StageClear", L"sound\\stage_clear.wav");
+	CAssetMgr::GetInst()->LoadSound(L"StepEnemy", L"sound\\StepEnemy.wav");
+	
+	pSound->SetVolume(100);
+	pSound->PlayToBGM(true);
+
 }
 
 void CPlayLevel::exit()

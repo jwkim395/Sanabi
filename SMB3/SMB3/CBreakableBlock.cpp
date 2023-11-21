@@ -10,7 +10,6 @@ void CBreakableBlock::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollide
 	if (dynamic_cast<CMario*>(_OtherObj) && dynamic_cast<CMario*>(_OtherObj)->getStatus() >= 1) {
         float platBottom = _OwnCol->GetPos().y + _OwnCol->GetScale().y / 2.f;
 		float otherTop = _OtherCol->GetPrevPos().y - _OtherCol->GetScale().y / 2.f;
-        //위에서 올라왔으면, y스피드를 0으로 고정
         if (platBottom <= otherTop)
         {
             Destroy();
@@ -19,8 +18,8 @@ void CBreakableBlock::BeginOverlap(CCollider* _OwnCol, CObj* _OtherObj, CCollide
 	else if (dynamic_cast<CTurtle*>(_OtherObj) && dynamic_cast<CTurtle*>(_OtherObj)->status == 2) {
         float plattop = (_OwnCol->GetPos().y - _OwnCol->GetScale().y / 2.f);
         float otherprevbottom = (_OtherCol->GetPrevPos().y + _OtherCol->GetScale().y / 2.f);
-
-        //위에서 올라왔으면, y스피드를 0으로 고정
+		float platBottom = _OwnCol->GetPos().y + _OwnCol->GetScale().y / 2.f;
+		float otherTop = _OtherCol->GetPrevPos().y - _OtherCol->GetScale().y / 2.f;
 		if (plattop >= otherprevbottom) {
 
 		}
